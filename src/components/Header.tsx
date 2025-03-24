@@ -1,12 +1,15 @@
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, User } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
@@ -22,9 +25,16 @@ const Header = () => {
   const navLinks = [
     { name: "Inicio", path: "/" },
     { name: "Lecciones", path: "/lecciones" },
-    { name: "Sobre Nosotros", path: "#sobre-nosotros" },
-    { name: "Metodología", path: "#metodologia" },
+    { name: "Metodología", path: "/#metodologia" },
   ];
+
+  const handleEvaluacionClick = () => {
+    navigate("/evaluacion-inicial");
+  };
+
+  const handlePerfilClick = () => {
+    navigate("/perfil");
+  };
 
   return (
     <header 
@@ -55,12 +65,26 @@ const Header = () => {
         </nav>
         
         <div className="hidden md:flex items-center space-x-4">
-          <Link to="/iniciar-sesion" className="button-outline py-2 px-4">
-            Iniciar Sesión
-          </Link>
-          <Link to="/registrarse" className="button-primary py-2 px-4">
-            Registrarse
-          </Link>
+          <Button 
+            variant="outline" 
+            className="py-2 px-4"
+            onClick={handleEvaluacionClick}
+          >
+            Test de nivel
+          </Button>
+          
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="rounded-full"
+            onClick={handlePerfilClick}
+          >
+            <Avatar>
+              <AvatarFallback>
+                <User className="h-5 w-5" />
+              </AvatarFallback>
+            </Avatar>
+          </Button>
         </div>
         
         {/* Mobile Menu Button */}
@@ -90,20 +114,25 @@ const Header = () => {
               </Link>
             ))}
             <div className="flex flex-col space-y-3 pt-4">
-              <Link 
-                to="/iniciar-sesion" 
-                className="button-outline w-full text-center"
-                onClick={() => setIsMenuOpen(false)}
+              <Button 
+                variant="outline" 
+                className="w-full text-center"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleEvaluacionClick();
+                }}
               >
-                Iniciar Sesión
-              </Link>
-              <Link 
-                to="/registrarse" 
-                className="button-primary w-full text-center"
-                onClick={() => setIsMenuOpen(false)}
+                Test de nivel
+              </Button>
+              <Button 
+                className="w-full text-center"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handlePerfilClick();
+                }}
               >
-                Registrarse
-              </Link>
+                Mi perfil
+              </Button>
             </div>
           </div>
         </nav>
