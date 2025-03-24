@@ -5,7 +5,7 @@ import App from './App.tsx'
 import './index.css'
 import { initUserProgress } from './services/UserProgress.ts'
 
-// Inicializar progreso del usuario
+// Initialize user progress
 initUserProgress();
 
 const rootElement = document.getElementById('root')
