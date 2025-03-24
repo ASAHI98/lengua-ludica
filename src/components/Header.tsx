@@ -1,13 +1,15 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User, Sun, Moon } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { theme, setTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -25,7 +27,7 @@ const Header = () => {
   const navLinks = [
     { name: "Inicio", path: "/" },
     { name: "Lecciones", path: "/lecciones" },
-    { name: "Metodología", path: "/#metodologia" },
+    { name: "Metodología", path: "/metodologia" },
   ];
 
   const handleEvaluacionClick = () => {
@@ -34,6 +36,10 @@ const Header = () => {
 
   const handlePerfilClick = () => {
     navigate("/perfil");
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
@@ -73,6 +79,16 @@ const Header = () => {
             Test de nivel
           </Button>
           
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="rounded-full"
+            aria-label={theme === "light" ? "Activar modo oscuro" : "Activar modo claro"}
+          >
+            {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+          </Button>
+          
           <Button 
             variant="ghost" 
             size="icon" 
@@ -88,13 +104,25 @@ const Header = () => {
         </div>
         
         {/* Mobile Menu Button */}
-        <button
-          onClick={toggleMenu}
-          className="md:hidden text-foreground focus:outline-none"
-          aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex items-center space-x-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="rounded-full"
+            aria-label={theme === "light" ? "Activar modo oscuro" : "Activar modo claro"}
+          >
+            {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+          </Button>
+          
+          <button
+            onClick={toggleMenu}
+            className="md:hidden text-foreground focus:outline-none"
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
       
       {/* Mobile Navigation */}

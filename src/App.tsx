@@ -11,6 +11,7 @@ import DetalleLesson from "./pages/DetalleLesson";
 import EvaluacionInicial from "./pages/EvaluacionInicial";
 import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
+import Methodology from "./pages/Methodology";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="/leccion/:lessonId" element={<DetalleLesson />} />
               <Route path="/evaluacion-inicial" element={<EvaluacionInicial />} />
               <Route path="/perfil" element={<Perfil />} />
+              <Route path="/metodologia" element={<Methodology />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Toaster />
