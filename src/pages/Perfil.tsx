@@ -6,7 +6,10 @@ import LevelProgress from "@/components/LevelProgress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Award, BookOpen, Calendar, Clock, User } from "lucide-react";
+import { Award, BookOpen, Calendar, Clock, Settings, User, Edit } from "lucide-react";
+import ProfileEditor from "@/components/ProfileEditor";
+import SettingsPanel from "@/components/SettingsPanel";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface UserStats {
   lessonsCompleted: number;
@@ -16,26 +19,39 @@ interface UserStats {
   badges: string[];
 }
 
-const mockUserStats: UserStats = {
-  lessonsCompleted: 24,
-  daysStreak: 7,
-  minutesLearned: 320,
-  pointsEarned: 4250,
-  badges: ["Principiante", "Gramática Nivel 1", "Vocabulario Básico", "7 días consecutivos"]
-};
-
 const Perfil = () => {
   const [userLevel, setUserLevel] = useState("A1");
-  const [stats, setStats] = useState<UserStats>(mockUserStats);
+  const [stats, setStats] = useState<UserStats>({
+    lessonsCompleted: 0,
+    daysStreak: 1,
+    minutesLearned: 0,
+    pointsEarned: 0,
+    badges: ["Principiante"],
+  });
+  const [userName, setUserName] = useState("Estudiante");
+  const [showProfileEditor, setShowProfileEditor] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   
   useEffect(() => {
-    // Cargar nivel del usuario desde localStorage
+    // Cargar datos del usuario desde localStorage
     const savedLevel = localStorage.getItem("userLevel");
     if (savedLevel) {
       setUserLevel(savedLevel);
     }
     
-    // Aquí se podría cargar las estadísticas reales del usuario desde una API o localStorage
+    const savedName = localStorage.getItem("userName");
+    if (savedName) {
+      setUserName(savedName);
+    }
+    
+    // Cargar estadísticas
+    setStats({
+      lessonsCompleted: parseInt(localStorage.getItem("lessonsCompleted") || "0"),
+      daysStreak: parseInt(localStorage.getItem("daysStreak") || "1"),
+      minutesLearned: parseInt(localStorage.getItem("minutesLearned") || "0"),
+      pointsEarned: parseInt(localStorage.getItem("userPoints") || "0"),
+      badges: JSON.parse(localStorage.getItem("userBadges") || '["Principiante"]'),
+    });
   }, []);
   
   return (
@@ -53,7 +69,7 @@ const Perfil = () => {
                   </AvatarFallback>
                 </Avatar>
                 
-                <h1 className="text-2xl font-bold mb-1">Estudiante</h1>
+                <h1 className="text-2xl font-bold mb-1">{userName}</h1>
                 <p className="text-foreground/70 mb-4">Nivel {userLevel}</p>
                 
                 <div className="flex justify-center space-x-4 mb-6">
@@ -71,8 +87,22 @@ const Perfil = () => {
                   </div>
                 </div>
                 
-                <Button className="w-full mb-4">Editar perfil</Button>
-                <Button variant="outline" className="w-full">Ajustes</Button>
+                <Button 
+                  className="w-full mb-4 flex items-center gap-2"
+                  onClick={() => setShowProfileEditor(true)}
+                >
+                  <Edit className="h-4 w-4" />
+                  Editar perfil
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  className="w-full flex items-center gap-2"
+                  onClick={() => setShowSettings(true)}
+                >
+                  <Settings className="h-4 w-4" />
+                  Ajustes
+                </Button>
               </div>
             </div>
             
@@ -168,6 +198,20 @@ const Perfil = () => {
         </div>
       </main>
       <Footer />
+      
+      {/* Modal de edición de perfil */}
+      <Dialog open={showProfileEditor} onOpenChange={setShowProfileEditor}>
+        <DialogContent className="p-0 bg-transparent border-none shadow-none max-w-md mx-auto">
+          <ProfileEditor onClose={() => setShowProfileEditor(false)} />
+        </DialogContent>
+      </Dialog>
+      
+      {/* Modal de configuración */}
+      <Dialog open={showSettings} onOpenChange={setShowSettings}>
+        <DialogContent className="p-0 bg-transparent border-none shadow-none max-w-md mx-auto">
+          <SettingsPanel onClose={() => setShowSettings(false)} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
