@@ -10,30 +10,28 @@ import {
   Contrast
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAccessibility } from "@/contexts/AccessibilityContext";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { toast } from "sonner";
 
 const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
   const { theme, setTheme } = useTheme();
-  const [fontSize, setFontSize] = useState<number>(100);
-  const [highContrast, setHighContrast] = useState<boolean>(false);
+  const { fontSize: contextFontSize, setFontSize: setContextFontSize, 
+          contrastMode, setContrastMode } = useAccessibility();
+  
+  const [localFontSize, setLocalFontSize] = useState<number>(100);
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
   
   useEffect(() => {
-    // Cargar configuraciones guardadas
+    // Load saved font size setting
     const savedFontSize = localStorage.getItem("fontSize");
     if (savedFontSize) {
-      setFontSize(Number(savedFontSize));
+      setLocalFontSize(Number(savedFontSize));
       document.documentElement.style.fontSize = `${Number(savedFontSize)}%`;
-    }
-    
-    const savedContrast = localStorage.getItem("highContrast");
-    if (savedContrast === "true") {
-      setHighContrast(true);
-      document.documentElement.classList.add("high-contrast");
     }
   }, []);
   
@@ -45,23 +43,32 @@ const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
     } else {
       setTheme(newTheme);
     }
+    toast.success(`Tema cambiado a ${newTheme === "system" ? "sistema" : newTheme === "dark" ? "oscuro" : "claro"}`);
   };
   
   const handleFontSizeChange = (value: number[]) => {
     const newSize = value[0];
-    setFontSize(newSize);
+    setLocalFontSize(newSize);
     document.documentElement.style.fontSize = `${newSize}%`;
     localStorage.setItem("fontSize", String(newSize));
+    
+    // Also update the accessibility context
+    if (newSize <= 100) setContextFontSize("normal");
+    else if (newSize <= 125) setContextFontSize("large");
+    else setContextFontSize("extra-large");
   };
   
   const handleContrastChange = (checked: boolean) => {
-    setHighContrast(checked);
     if (checked) {
       document.documentElement.classList.add("high-contrast");
+      setContrastMode("high-contrast");
     } else {
       document.documentElement.classList.remove("high-contrast");
+      setContrastMode("normal");
     }
     localStorage.setItem("highContrast", String(checked));
+    
+    toast.success(`Alto contraste ${checked ? "activado" : "desactivado"}`);
   };
   
   const resetSettings = () => {
@@ -71,14 +78,17 @@ const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
     setTheme(systemTheme);
     
     // Reset font size
-    setFontSize(100);
+    setLocalFontSize(100);
     document.documentElement.style.fontSize = "100%";
-    localStorage.removeItem("fontSize");
+    localStorage.setItem("fontSize", "100");
+    setContextFontSize("normal");
     
     // Reset contrast
-    setHighContrast(false);
     document.documentElement.classList.remove("high-contrast");
-    localStorage.removeItem("highContrast");
+    localStorage.setItem("highContrast", "false");
+    setContrastMode("normal");
+    
+    toast.success("Ajustes restablecidos a valores predeterminados");
   };
   
   return (
@@ -134,13 +144,13 @@ const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Type className="h-4 w-4 mr-2" />
-                  <Label htmlFor="font-size">Tamaño del texto: {fontSize}%</Label>
+                  <Label htmlFor="font-size">Tamaño del texto: {localFontSize}%</Label>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleFontSizeChange([Math.max(70, fontSize - 10)])}>
+                  <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleFontSizeChange([Math.max(70, localFontSize - 10)])}>
                     <Minus className="h-3.5 w-3.5" />
                   </Button>
-                  <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleFontSizeChange([Math.min(150, fontSize + 10)])}>
+                  <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleFontSizeChange([Math.min(150, localFontSize + 10)])}>
                     <Plus className="h-3.5 w-3.5" />
                   </Button>
                 </div>
@@ -150,7 +160,7 @@ const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
                 min={70}
                 max={150}
                 step={5}
-                value={[fontSize]}
+                value={[localFontSize]}
                 onValueChange={handleFontSizeChange}
               />
             </div>
@@ -162,7 +172,7 @@ const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
               </div>
               <Switch
                 id="contrast"
-                checked={highContrast}
+                checked={contrastMode === "high-contrast"}
                 onCheckedChange={handleContrastChange}
               />
             </div>
