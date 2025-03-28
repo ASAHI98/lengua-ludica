@@ -5,8 +5,8 @@ import {
   Moon, 
   Monitor, 
   Type, 
-  TypePlus, 
-  TypeMinus, 
+  Plus, 
+  Minus, 
   Contrast
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -138,10 +138,10 @@ const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
                 </div>
                 <div className="flex items-center space-x-1">
                   <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleFontSizeChange([Math.max(70, fontSize - 10)])}>
-                    <TypeMinus className="h-3.5 w-3.5" />
+                    <Minus className="h-3.5 w-3.5" />
                   </Button>
                   <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => handleFontSizeChange([Math.min(150, fontSize + 10)])}>
-                    <TypePlus className="h-3.5 w-3.5" />
+                    <Plus className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               </div>
