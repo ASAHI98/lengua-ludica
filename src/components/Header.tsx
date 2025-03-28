@@ -1,170 +1,113 @@
 
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, User, Sun, Moon } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "@/contexts/ThemeContext";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Menu, Moon, Sun, BookOpen } from "lucide-react";
+import AccessibilitySettings from "./AccessibilitySettings";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
   const location = useLocation();
-  const navigate = useNavigate();
-  
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  
+  const { theme, setTheme } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   const navLinks = [
-    { name: "Inicio", path: "/" },
-    { name: "Lecciones", path: "/lecciones" },
-    { name: "Metodología", path: "/metodologia" },
+    { path: "/", label: "Inicio" },
+    { path: "/lecciones", label: "Lecciones" },
+    { path: "/evaluacion-inicial", label: "Evaluación Inicial" },
+    { path: "/metodologia", label: "Metodología" },
+    { path: "/blog", label: "Blog" },
+    { path: "/perfil", label: "Mi Perfil" },
   ];
 
-  const handleEvaluacionClick = () => {
-    navigate("/evaluacion-inicial");
-  };
-
-  const handlePerfilClick = () => {
-    navigate("/perfil");
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
-
   return (
-    <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
-      }`}
-    >
-      <div className="max-container flex items-center justify-between px-6 md:px-8">
+    <header className="py-4 px-6 bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-40">
+      <div className="max-container flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
-          <span className="text-xl font-serif font-bold bg-gradient-to-r from-spanish-red to-primary bg-clip-text text-transparent">
-            Lengua Lúdica
-          </span>
+          <BookOpen className="h-6 w-6 text-primary" />
+          <span className="font-bold text-xl">EspañolApps</span>
         </Link>
-        
+
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <Link
-              key={link.name}
+              key={link.path}
               to={link.path}
-              className={`nav-link ${
-                location.pathname === link.path ? "nav-link-active" : ""
-              }`}
+              className={`nav-link ${isActive(link.path) ? "nav-link-active" : ""}`}
             >
-              {link.name}
+              {link.label}
             </Link>
           ))}
         </nav>
-        
-        <div className="hidden md:flex items-center space-x-4">
-          <Button 
-            variant="outline" 
-            className="py-2 px-4"
-            onClick={handleEvaluacionClick}
-          >
-            Test de nivel
-          </Button>
+
+        {/* Accessibility and Theme Controls */}
+        <div className="hidden md:flex items-center">
+          <AccessibilitySettings />
           
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleTheme}
-            className="rounded-full"
-            aria-label={theme === "light" ? "Activar modo oscuro" : "Activar modo claro"}
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="rounded-full"
-            onClick={handlePerfilClick}
-          >
-            <Avatar>
-              <AvatarFallback>
-                <User className="h-5 w-5" />
-              </AvatarFallback>
-            </Avatar>
+            {theme === "dark" ? (
+              <Sun className="h-[1.2rem] w-[1.2rem]" />
+            ) : (
+              <Moon className="h-[1.2rem] w-[1.2rem]" />
+            )}
           </Button>
         </div>
-        
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center space-x-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="rounded-full"
-            aria-label={theme === "light" ? "Activar modo oscuro" : "Activar modo claro"}
-          >
-            {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-          </Button>
-          
-          <button
-            onClick={toggleMenu}
-            className="md:hidden text-foreground focus:outline-none"
-            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+
+        {/* Mobile Menu */}
+        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <nav className="flex flex-col space-y-4 mt-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-lg py-2 ${
+                    isActive(link.path) ? "text-primary font-medium" : ""
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="flex items-center justify-between mt-6 pt-6 border-t">
+                <AccessibilitySettings />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-5 w-5" />
+                  ) : (
+                    <Moon className="h-5 w-5" />
+                  )}
+                </Button>
+              </div>
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
-      
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <nav className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-b border-border animate-slide-up">
-          <div className="flex flex-col space-y-4 p-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`text-lg ${
-                  location.pathname === link.path ? "text-primary font-medium" : "text-foreground/80"
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
-            <div className="flex flex-col space-y-3 pt-4">
-              <Button 
-                variant="outline" 
-                className="w-full text-center"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  handleEvaluacionClick();
-                }}
-              >
-                Test de nivel
-              </Button>
-              <Button 
-                className="w-full text-center"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  handlePerfilClick();
-                }}
-              >
-                Mi perfil
-              </Button>
-            </div>
-          </div>
-        </nav>
-      )}
     </header>
   );
 };

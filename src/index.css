@@ -86,6 +86,22 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Font size accessibility classes */
+  .text-normal {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .text-large {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  
+  .text-extra-large {
+    font-size: 1.25rem;
+    line-height: 1.7;
+  }
 }
 
 @layer components {
