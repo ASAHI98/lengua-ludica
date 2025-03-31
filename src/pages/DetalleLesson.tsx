@@ -7,6 +7,7 @@ import LessonContent, { ContentBlock } from "@/components/LessonContent";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
+import { completeLesson, addFavoriteTopic } from "@/services/UserProgress";
 
 // Mock data for lessons
 const lessonsMockData = {
@@ -152,14 +153,25 @@ const DetalleLesson = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    // Simular carga de la lección desde una API
+    // Cargar lección desde localStorage o del mock data
     setIsLoading(true);
+    
+    const currentLessonId = lessonId || localStorage.getItem("currentLessonId");
+    
     setTimeout(() => {
-      if (lessonId && lessonsMockData[lessonId as keyof typeof lessonsMockData]) {
-        setLesson(lessonsMockData[lessonId as keyof typeof lessonsMockData]);
+      if (currentLessonId && lessonsMockData[currentLessonId as keyof typeof lessonsMockData]) {
+        setLesson(lessonsMockData[currentLessonId as keyof typeof lessonsMockData]);
       }
       setIsLoading(false);
     }, 500);
+    
+    // Verificar si la lección ya está completada
+    const completedLessons = JSON.parse(localStorage.getItem("completedLessons") || "[]");
+    const isLessonCompleted = completedLessons.includes(currentLessonId);
+    
+    if (isLessonCompleted) {
+      toast.info("Ya has completado esta lección anteriormente");
+    }
   }, [lessonId]);
   
   const handleGoBack = () => {
@@ -167,16 +179,81 @@ const DetalleLesson = () => {
   };
   
   const handleLessonComplete = () => {
-    // Actualizar progreso del usuario
-    toast.success("¡Lección completada!", {
-      description: `Has ganado ${lesson?.points || 0} puntos.`,
-      duration: 5000
-    });
+    if (!lesson) return;
+    
+    // Agregar la lección al array de lecciones completadas
+    const completedLessons = JSON.parse(localStorage.getItem("completedLessons") || "[]");
+    if (!completedLessons.includes(lesson.id)) {
+      completedLessons.push(lesson.id);
+      localStorage.setItem("completedLessons", JSON.stringify(completedLessons));
+      
+      // Calcular duración estimada en minutos
+      const duration = parseInt(lesson.duration.split(" ")[0]);
+      
+      // Registrar la compleción de la lección en el sistema de progreso
+      completeLesson(duration);
+      
+      // Agregar la categoría como tema favorito
+      addFavoriteTopic(lesson.category);
+      
+      // Verificar si el usuario ha subido de nivel
+      const leveledUp = checkLevelUp();
+      
+      if (leveledUp) {
+        toast.success("¡Has subido de nivel!", {
+          description: `Ahora eres nivel ${localStorage.getItem("userLevel")}`,
+          duration: 5000
+        });
+      }
+      
+      // Mostrar mensaje de éxito
+      toast.success("¡Lección completada!", {
+        description: `Has ganado ${lesson.points} puntos.`,
+        duration: 3000
+      });
+    } else {
+      toast.info("Ya habías completado esta lección anteriormente");
+    }
     
     // Redirigir a lecciones después de un breve retraso
     setTimeout(() => {
       navigate("/lecciones");
     }, 2000);
+  };
+  
+  // Verificar si el usuario ha subido de nivel
+  const checkLevelUp = () => {
+    const currentPoints = parseInt(localStorage.getItem("userPoints") || "0");
+    const currentLevel = localStorage.getItem("userLevel") || "A1";
+    
+    // Determinar los puntos necesarios para el siguiente nivel
+    const levelThresholds = {
+      "A1": 500,
+      "A2": 1000,
+      "B1": 2000,
+      "B2": 3500,
+      "C1": 5000,
+      "C2": Infinity
+    };
+    
+    const nextLevels = {
+      "A1": "A2",
+      "A2": "B1",
+      "B1": "B2",
+      "B2": "C1",
+      "C1": "C2"
+    };
+    
+    // Verificar si los puntos superan el umbral para el nivel actual
+    const threshold = levelThresholds[currentLevel as keyof typeof levelThresholds];
+    
+    if (currentPoints >= threshold && currentLevel !== "C2") {
+      const newLevel = nextLevels[currentLevel as keyof typeof nextLevels];
+      localStorage.setItem("userLevel", newLevel);
+      return true;
+    }
+    
+    return false;
   };
   
   if (isLoading) {

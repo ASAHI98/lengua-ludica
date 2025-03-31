@@ -21,7 +21,7 @@ import { toast } from "sonner";
 const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
   const { theme, setTheme } = useTheme();
   const { fontSize: contextFontSize, setFontSize: setContextFontSize, 
-          contrastMode, setContrastMode } = useAccessibility();
+          contrastMode, setContrastMode, resetSettings: resetAccessibilitySettings } = useAccessibility();
   
   const [localFontSize, setLocalFontSize] = useState<number>(100);
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
@@ -77,16 +77,11 @@ const SettingsPanel = ({ onClose }: { onClose: () => void }) => {
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     setTheme(systemTheme);
     
-    // Reset font size
-    setLocalFontSize(100);
-    document.documentElement.style.fontSize = "100%";
-    localStorage.setItem("fontSize", "100");
-    setContextFontSize("normal");
+    // Reset accessibility settings
+    resetAccessibilitySettings();
     
-    // Reset contrast
-    document.documentElement.classList.remove("high-contrast");
-    localStorage.setItem("highContrast", "false");
-    setContrastMode("normal");
+    // Update local state
+    setLocalFontSize(100);
     
     toast.success("Ajustes restablecidos a valores predeterminados");
   };

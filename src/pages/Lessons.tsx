@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -10,6 +9,12 @@ import {
   Award, BookOpen, Clock, Filter, GraduationCap, 
   Search, BookA, BookText, Volume2, PenTool 
 } from "lucide-react";
+import { 
+  getUserProgress, 
+  completeLesson, 
+  addFavoriteTopic 
+} from "@/services/UserProgress";
+import { toast } from "sonner";
 
 interface Lesson {
   id: string;
@@ -47,7 +52,7 @@ const mockLessons: Lesson[] = [
     category: "Vocabulario",
     level: "A1",
     duration: "10 min",
-    isCompleted: true
+    isCompleted: false
   },
   {
     id: "pronunciacion-vocales",
@@ -102,20 +107,32 @@ const mockLessons: Lesson[] = [
 const Lessons = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredLessons, setFilteredLessons] = useState<Lesson[]>(mockLessons);
+  const [filteredLessons, setFilteredLessons] = useState<Lesson[]>([]);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [userLevel, setUserLevel] = useState("A1");
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
   
   useEffect(() => {
-    const savedLevel = localStorage.getItem("userLevel");
-    if (savedLevel) {
-      setUserLevel(savedLevel);
+    const userProgress = getUserProgress();
+    if (userProgress.level) {
+      setUserLevel(userProgress.level);
+    }
+    
+    const storedCompletedLessons = localStorage.getItem("completedLessons");
+    if (storedCompletedLessons) {
+      setCompletedLessons(JSON.parse(storedCompletedLessons));
+    }
+
+    if (!localStorage.getItem("completedLessons")) {
+      localStorage.setItem("completedLessons", JSON.stringify([]));
     }
   }, []);
   
   useEffect(() => {
-    // Filtrar lecciones basado en búsqueda y categoría
-    let results = mockLessons;
+    let results = mockLessons.map(lesson => ({
+      ...lesson,
+      isCompleted: completedLessons.includes(lesson.id)
+    }));
     
     if (searchTerm) {
       results = results.filter(
@@ -130,14 +147,19 @@ const Lessons = () => {
     }
     
     setFilteredLessons(results);
-  }, [searchTerm, activeCategory]);
+  }, [searchTerm, activeCategory, completedLessons]);
   
   const handleLessonClick = (lessonId: string) => {
+    localStorage.setItem("currentLessonId", lessonId);
     navigate(`/leccion/${lessonId}`);
   };
   
   const handleTakeTest = () => {
     navigate("/evaluacion-inicial");
+  };
+
+  const handleProgressClick = () => {
+    navigate("/perfil");
   };
   
   const categories = [...new Set(mockLessons.map(lesson => lesson.category))];
@@ -163,7 +185,7 @@ const Lessons = () => {
                   <span>Test de nivel</span>
                 </Button>
                 
-                <Button className="flex items-center gap-2">
+                <Button className="flex items-center gap-2" onClick={handleProgressClick}>
                   <GraduationCap className="w-4 h-4" />
                   <span>Mi progreso</span>
                 </Button>
