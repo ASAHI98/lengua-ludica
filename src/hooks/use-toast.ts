@@ -1,85 +1,43 @@
 
-import { createContext, useContext, useState } from "react";
+// Simple toast notification system
+const toastContainer = document.createElement('div');
+toastContainer.className = 'toast-container';
+document.body.appendChild(toastContainer);
 
-type ToastProps = {
-  title: string;
-  description?: string;
-  action?: React.ReactNode;
-  variant?: "default" | "success" | "error" | "warning" | "info";
-  duration?: number;
-};
-
-type ToastContextProps = {
-  toasts: ToastProps[];
-  addToast: (toast: ToastProps) => void;
-  dismissToast: (index: number) => void;
-};
-
-const ToastContext = createContext<ToastContextProps>({
-  toasts: [],
-  addToast: () => {},
-  dismissToast: () => {},
-});
-
-export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
-  const [toasts, setToasts] = useState<ToastProps[]>([]);
-
-  const addToast = (toast: ToastProps) => {
-    const newToast = { ...toast, duration: toast.duration || 5000 };
-    setToasts((prev) => [...prev, newToast]);
-
-    // Auto dismiss
-    if (newToast.duration !== Infinity) {
-      setTimeout(() => {
-        dismissToast(toasts.length);
-      }, newToast.duration);
-    }
-  };
-
-  const dismissToast = (index: number) => {
-    setToasts((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  return (
-    <ToastContext.Provider value={{ toasts, addToast, dismissToast }}>
-      {children}
-    </ToastContext.Provider>
-  );
-};
-
-export const useToast = () => {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
-  }
-  return context;
-};
-
-// Standalone toast function for use outside of React components
 export const toast = {
-  default: (props: Omit<ToastProps, "variant">) => {
-    document.dispatchEvent(
-      new CustomEvent("toast", { detail: { ...props, variant: "default" } })
-    );
+  show(message, type = 'default', duration = 3000) {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+      <div class="toast-content">
+        <p>${message}</p>
+      </div>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Auto dismiss
+    setTimeout(() => {
+      toast.classList.add('toast-dismiss');
+      toast.addEventListener('animationend', () => {
+        toastContainer.removeChild(toast);
+      });
+    }, duration);
   },
-  success: (props: Omit<ToastProps, "variant">) => {
-    document.dispatchEvent(
-      new CustomEvent("toast", { detail: { ...props, variant: "success" } })
-    );
+  
+  success(message, duration) {
+    this.show(message, 'success', duration);
   },
-  error: (props: Omit<ToastProps, "variant">) => {
-    document.dispatchEvent(
-      new CustomEvent("toast", { detail: { ...props, variant: "error" } })
-    );
+  
+  error(message, duration) {
+    this.show(message, 'error', duration);
   },
-  warning: (props: Omit<ToastProps, "variant">) => {
-    document.dispatchEvent(
-      new CustomEvent("toast", { detail: { ...props, variant: "warning" } })
-    );
+  
+  warning(message, duration) {
+    this.show(message, 'warning', duration);
   },
-  info: (props: Omit<ToastProps, "variant">) => {
-    document.dispatchEvent(
-      new CustomEvent("toast", { detail: { ...props, variant: "info" } })
-    );
-  },
+  
+  info(message, duration) {
+    this.show(message, 'info', duration);
+  }
 };

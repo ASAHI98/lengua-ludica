@@ -1,5 +1,6 @@
 
 import './index.css';
+import './styles/toast.css';
 
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,5 +24,53 @@ document.addEventListener('DOMContentLoaded', () => {
       const App = module.default;
       App();
     });
+  }
+  
+  // Global toast notification system
+  window.toast = {
+    show(message, type = 'default', duration = 3000) {
+      const toastContainer = document.getElementById('toast-container') || createToastContainer();
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <div class="toast-content">
+          <p>${message}</p>
+        </div>
+      `;
+      
+      toastContainer.appendChild(toast);
+      
+      // Auto dismiss
+      setTimeout(() => {
+        toast.classList.add('toast-dismiss');
+        toast.addEventListener('animationend', () => {
+          toastContainer.removeChild(toast);
+        });
+      }, duration);
+    },
+    
+    success(message, duration) {
+      this.show(message, 'success', duration);
+    },
+    
+    error(message, duration) {
+      this.show(message, 'error', duration);
+    },
+    
+    warning(message, duration) {
+      this.show(message, 'warning', duration);
+    },
+    
+    info(message, duration) {
+      this.show(message, 'info', duration);
+    }
+  };
+  
+  function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+    return container;
   }
 });

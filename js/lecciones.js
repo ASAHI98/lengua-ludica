@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
               ${lesson.duration} minutos
             </span>
             <span class="lesson-detail">
-              <i class="fas fa-list-check"></i>
+              <i class="fas fa-tasks"></i>
               ${lesson.exercises} ejercicios
             </span>
           </div>
@@ -190,6 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show notification
         if (window.showNotification) {
           window.showNotification(`Filtro aplicado: ${getFilterText(filterType, filterValue)}`);
+        } else if (window.toast) {
+          window.toast.info(`Filtro aplicado: ${getFilterText(filterType, filterValue)}`);
         }
       });
     });
@@ -230,23 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     return value;
-  }
-  
-  // Notification function (if not already defined)
-  if (!window.showNotification) {
-    window.showNotification = function(message) {
-      const notification = document.getElementById('notification');
-      const notificationMessage = document.getElementById('notification-message');
-      
-      if (notification && notificationMessage) {
-        notificationMessage.textContent = message;
-        notification.classList.add('show');
-        
-        setTimeout(() => {
-          notification.classList.remove('show');
-        }, 3000);
-      }
-    };
   }
   
   // Initialize the page

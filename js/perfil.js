@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
   // Load user data from localStorage
   loadUserData();
@@ -65,7 +66,7 @@ function createBadgeElement(name, locked) {
   
   const icon = document.createElement('div');
   icon.className = 'badge-icon';
-  icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v5M5 12H1M12 23v-5M23 12h-5"/><circle cx="12" cy="12" r="4"/><path d="m19 19-2.8-2.8M16.8 7.2 19 5M5 19l2.8-2.8M7.2 7.2 5 5"/></svg>`;
+  icon.innerHTML = `<i class="fas fa-award"></i>`;
   
   const badgeName = document.createElement('div');
   badgeName.className = 'badge-name';
@@ -121,6 +122,11 @@ function setupModals() {
       localStorage.setItem('userName', newUsername);
       document.getElementById('user-name').textContent = newUsername;
       profileEditorModal.classList.add('hidden');
+      
+      // Show toast notification
+      if (window.toast) {
+        window.toast.success('¡Perfil actualizado con éxito!');
+      }
     }
   });
   
@@ -148,6 +154,11 @@ function setupModals() {
     localStorage.setItem('soundsEnabled', soundsEnabled);
     
     settingsModal.classList.add('hidden');
+    
+    // Show toast notification
+    if (window.toast) {
+      window.toast.success('¡Ajustes guardados!');
+    }
   });
   
   resetProgressBtn.addEventListener('click', () => {
@@ -162,6 +173,11 @@ function setupModals() {
       // Keep streak and username
       loadUserData();
       settingsModal.classList.add('hidden');
+      
+      // Show toast notification
+      if (window.toast) {
+        window.toast.warning('¡Progreso reiniciado!');
+      }
     }
   });
   
@@ -174,4 +190,23 @@ function setupModals() {
       settingsModal.classList.add('hidden');
     }
   });
+  
+  // Setup accessibility panel
+  const accessibilityButton = document.getElementById('accessibility-button');
+  const accessibilityPanel = document.getElementById('accessibility-panel');
+  
+  if (accessibilityButton && accessibilityPanel) {
+    accessibilityButton.addEventListener('click', () => {
+      accessibilityPanel.classList.toggle('hidden');
+    });
+    
+    // Close accessibility panel when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!accessibilityButton.contains(e.target) && 
+          !accessibilityPanel.contains(e.target) && 
+          !accessibilityPanel.classList.contains('hidden')) {
+        accessibilityPanel.classList.add('hidden');
+      }
+    });
+  }
 }
