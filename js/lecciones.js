@@ -64,6 +64,26 @@ document.addEventListener('DOMContentLoaded', function() {
       category: "grammar",
       duration: 60,
       exercises: 18
+    },
+    {
+      id: 7,
+      title: "Cultura Latinoamericana",
+      description: "Explora la rica diversidad cultural de Latinoamérica.",
+      image: "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=500&auto=format&fit=crop&q=60",
+      level: "b1",
+      category: "culture",
+      duration: 40,
+      exercises: 8
+    },
+    {
+      id: 8,
+      title: "El Subjuntivo",
+      description: "Aprende a usar el modo subjuntivo para expresar deseos, dudas y posibilidades.",
+      image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop&q=60",
+      level: "b2",
+      category: "grammar",
+      duration: 75,
+      exercises: 22
     }
   ];
   
@@ -81,6 +101,11 @@ document.addEventListener('DOMContentLoaded', function() {
   function initPage() {
     renderLessons();
     setupFilterEvents();
+    
+    // Check if Toast is available and show welcome message
+    if (window.toast) {
+      window.toast.info('¡Bienvenido a las lecciones de español!');
+    }
   }
   
   // Render lessons
@@ -160,11 +185,41 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
           <div class="lesson-actions">
             <a href="leccion.html?id=${lesson.id}" class="btn btn-primary">Iniciar lección</a>
+            <button class="btn btn-outline lesson-favorite" data-id="${lesson.id}">
+              <i class="far fa-heart"></i>
+            </button>
           </div>
         </div>
       `;
       
       lessonsGrid.appendChild(lessonCard);
+      
+      // Add event listener for favorite button
+      const favoriteBtn = lessonCard.querySelector('.lesson-favorite');
+      if (favoriteBtn) {
+        favoriteBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const icon = favoriteBtn.querySelector('i');
+          
+          if (icon.classList.contains('far')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            icon.style.color = '#ef4444';
+            
+            if (window.toast) {
+              window.toast.success('Lección agregada a favoritos');
+            }
+          } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            icon.style.color = '';
+            
+            if (window.toast) {
+              window.toast.info('Lección removida de favoritos');
+            }
+          }
+        });
+      }
     });
   }
   
@@ -188,9 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderLessons();
         
         // Show notification
-        if (window.showNotification) {
-          window.showNotification(`Filtro aplicado: ${getFilterText(filterType, filterValue)}`);
-        } else if (window.toast) {
+        if (window.toast) {
           window.toast.info(`Filtro aplicado: ${getFilterText(filterType, filterValue)}`);
         }
       });

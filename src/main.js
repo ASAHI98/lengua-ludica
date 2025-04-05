@@ -35,17 +35,33 @@ document.addEventListener('DOMContentLoaded', () => {
       toast.innerHTML = `
         <div class="toast-content">
           <p>${message}</p>
+          <button class="toast-close">×</button>
         </div>
       `;
       
       toastContainer.appendChild(toast);
       
+      // Add close button functionality
+      const closeBtn = toast.querySelector('.toast-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          toast.classList.add('toast-dismiss');
+          toast.addEventListener('animationend', () => {
+            toastContainer.removeChild(toast);
+          });
+        });
+      }
+      
       // Auto dismiss
       setTimeout(() => {
-        toast.classList.add('toast-dismiss');
-        toast.addEventListener('animationend', () => {
-          toastContainer.removeChild(toast);
-        });
+        if (toast.parentNode === toastContainer) {
+          toast.classList.add('toast-dismiss');
+          toast.addEventListener('animationend', () => {
+            if (toast.parentNode === toastContainer) {
+              toastContainer.removeChild(toast);
+            }
+          });
+        }
       }, duration);
     },
     
