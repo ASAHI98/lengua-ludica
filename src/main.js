@@ -15,4 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
   document.documentElement.setAttribute('data-font-size', fontSize);
   document.documentElement.setAttribute('data-contrast', contrastMode);
+  
+  // Initialize App
+  const appElement = document.getElementById('root');
+  if (appElement) {
+    import('./App.js').then(module => {
+      const App = module.default;
+      App();
+    });
+  }
 });
