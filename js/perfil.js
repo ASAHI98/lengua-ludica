@@ -1,318 +1,177 @@
-
-document.addEventListener('DOMContentLoaded', initializeProfilePage);
-
-// DOM Elements
-const editProfileBtn = document.getElementById('edit-profile');
-const profileModal = document.getElementById('profile-modal');
-const closeProfileModal = document.getElementById('close-profile-modal');
-const cancelProfileBtn = document.getElementById('cancel-profile');
-const profileForm = document.getElementById('profile-form');
-const profileNameInput = document.getElementById('profile-name');
-const profileEmailInput = document.getElementById('profile-email');
-const userName = document.getElementById('user-name');
-
-const editSettingsBtn = document.getElementById('edit-settings');
-const settingsModal = document.getElementById('settings-modal');
-const closeSettingsModal = document.getElementById('close-settings-modal');
-
-// Profile stats elements
-const daysStreakEl = document.getElementById('days-streak');
-const totalPointsEl = document.getElementById('total-points');
-const studyTimeEl = document.getElementById('study-time');
-const completedLessonsEl = document.getElementById('completed-lessons');
-const nextLevelProgressEl = document.getElementById('next-level-progress');
-const activityListEl = document.getElementById('activity-list');
-
-// Initialize profile page
-function initializeProfilePage() {
+document.addEventListener('DOMContentLoaded', function() {
   // Load user data from localStorage
   loadUserData();
   
-  // Load user stats
-  loadUserStats();
+  // Tab switching
+  setupTabs();
   
-  // Load recent activity
-  loadRecentActivity();
+  // Modal functionality
+  setupModals();
+});
+
+function loadUserData() {
+  // User info
+  const userName = localStorage.getItem('userName') || 'Estudiante';
+  const userLevel = localStorage.getItem('userLevel') || 'A1';
   
-  // Add event listeners
-  if (editProfileBtn) {
-    editProfileBtn.addEventListener('click', openProfileModal);
-  }
+  document.getElementById('user-name').textContent = userName;
+  document.getElementById('user-level').textContent = `Nivel ${userLevel}`;
+  document.getElementById('edit-username').value = userName;
   
-  if (closeProfileModal) {
-    closeProfileModal.addEventListener('click', closeModal.bind(null, profileModal));
-  }
+  // Stats
+  const lessonsCompleted = parseInt(localStorage.getItem('lessonsCompleted') || '0');
+  const daysStreak = parseInt(localStorage.getItem('daysStreak') || '1');
+  const minutesLearned = parseInt(localStorage.getItem('minutesLearned') || '0');
+  const pointsEarned = parseInt(localStorage.getItem('userPoints') || '0');
   
-  if (cancelProfileBtn) {
-    cancelProfileBtn.addEventListener('click', closeModal.bind(null, profileModal));
-  }
+  // Update stats in both locations
+  document.getElementById('lessons-completed').textContent = lessonsCompleted;
+  document.getElementById('days-streak').textContent = daysStreak;
+  document.getElementById('points-earned').textContent = pointsEarned;
   
-  if (profileForm) {
-    profileForm.addEventListener('submit', saveUserProfile);
-  }
+  document.getElementById('stats-lessons').textContent = lessonsCompleted;
+  document.getElementById('stats-streak').textContent = daysStreak;
+  document.getElementById('stats-minutes').textContent = minutesLearned;
+  document.getElementById('stats-points').textContent = pointsEarned;
   
-  if (editSettingsBtn) {
-    editSettingsBtn.addEventListener('click', openSettingsModal);
-  }
+  // Badges
+  loadBadges();
+}
+
+function loadBadges() {
+  const badges = JSON.parse(localStorage.getItem('userBadges') || '["Principiante"]');
+  const badgesContainer = document.getElementById('badges-container');
   
-  if (closeSettingsModal) {
-    closeSettingsModal.addEventListener('click', closeModal.bind(null, settingsModal));
-  }
+  // Clear existing badges
+  badgesContainer.innerHTML = '';
+  
+  // Add earned badges
+  badges.forEach(badge => {
+    const badgeElement = createBadgeElement(badge, false);
+    badgesContainer.appendChild(badgeElement);
+  });
+  
+  // Add locked badges
+  const lockedBadges = ['Intermedio', 'Avanzado', 'Experto'];
+  lockedBadges.forEach(badge => {
+    const badgeElement = createBadgeElement(badge, true);
+    badgesContainer.appendChild(badgeElement);
+  });
+}
+
+function createBadgeElement(name, locked) {
+  const badge = document.createElement('div');
+  badge.className = `badge-card ${locked ? 'locked' : ''}`;
+  
+  const icon = document.createElement('div');
+  icon.className = 'badge-icon';
+  icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v5M5 12H1M12 23v-5M23 12h-5"/><circle cx="12" cy="12" r="4"/><path d="m19 19-2.8-2.8M16.8 7.2 19 5M5 19l2.8-2.8M7.2 7.2 5 5"/></svg>`;
+  
+  const badgeName = document.createElement('div');
+  badgeName.className = 'badge-name';
+  badgeName.textContent = locked ? 'Bloqueada' : name;
+  
+  badge.appendChild(icon);
+  badge.appendChild(badgeName);
+  
+  return badge;
+}
+
+function setupTabs() {
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tabName = button.getAttribute('data-tab');
+      
+      // Update active tab button
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      // Show selected tab content
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+    });
+  });
+}
+
+function setupModals() {
+  // Profile editor
+  const editProfileBtn = document.getElementById('edit-profile-btn');
+  const profileEditorModal = document.getElementById('profile-editor-modal');
+  const cancelEditBtn = document.getElementById('cancel-edit');
+  const profileEditForm = document.getElementById('profile-edit-form');
+  
+  editProfileBtn.addEventListener('click', () => {
+    profileEditorModal.classList.remove('hidden');
+  });
+  
+  cancelEditBtn.addEventListener('click', () => {
+    profileEditorModal.classList.add('hidden');
+  });
+  
+  profileEditForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const newUsername = document.getElementById('edit-username').value;
+    
+    if (newUsername.trim() !== '') {
+      localStorage.setItem('userName', newUsername);
+      document.getElementById('user-name').textContent = newUsername;
+      profileEditorModal.classList.add('hidden');
+    }
+  });
+  
+  // Settings modal
+  const settingsBtn = document.getElementById('settings-btn');
+  const settingsModal = document.getElementById('settings-modal');
+  const cancelSettingsBtn = document.getElementById('cancel-settings');
+  const saveSettingsBtn = document.getElementById('save-settings');
+  const resetProgressBtn = document.getElementById('reset-progress');
+  
+  settingsBtn.addEventListener('click', () => {
+    settingsModal.classList.remove('hidden');
+  });
+  
+  cancelSettingsBtn.addEventListener('click', () => {
+    settingsModal.classList.add('hidden');
+  });
+  
+  saveSettingsBtn.addEventListener('click', () => {
+    // Save notification and sound settings
+    const notificationsEnabled = document.getElementById('notifications-toggle').checked;
+    const soundsEnabled = document.getElementById('sounds-toggle').checked;
+    
+    localStorage.setItem('notificationsEnabled', notificationsEnabled);
+    localStorage.setItem('soundsEnabled', soundsEnabled);
+    
+    settingsModal.classList.add('hidden');
+  });
+  
+  resetProgressBtn.addEventListener('click', () => {
+    if (confirm('¿Estás seguro de que quieres reiniciar todo tu progreso? Esta acción no se puede deshacer.')) {
+      // Reset user progress
+      localStorage.setItem('lessonsCompleted', '0');
+      localStorage.setItem('userLevel', 'A1');
+      localStorage.setItem('userPoints', '0');
+      localStorage.setItem('minutesLearned', '0');
+      localStorage.setItem('userBadges', '["Principiante"]');
+      
+      // Keep streak and username
+      loadUserData();
+      settingsModal.classList.add('hidden');
+    }
+  });
   
   // Close modals when clicking outside
-  window.addEventListener('click', event => {
-    if (event.target === profileModal) {
-      closeModal(profileModal);
+  window.addEventListener('click', (e) => {
+    if (e.target === profileEditorModal) {
+      profileEditorModal.classList.add('hidden');
     }
-    
-    if (event.target === settingsModal) {
-      closeModal(settingsModal);
-    }
-  });
-  
-  // Close modals on ESC key
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') {
-      if (!profileModal.classList.contains('hidden')) {
-        closeModal(profileModal);
-      }
-      
-      if (!settingsModal.classList.contains('hidden')) {
-        closeModal(settingsModal);
-      }
+    if (e.target === settingsModal) {
+      settingsModal.classList.add('hidden');
     }
   });
-}
-
-// Load user data from localStorage
-function loadUserData() {
-  const savedName = localStorage.getItem('userName');
-  const savedEmail = localStorage.getItem('userEmail');
-  
-  if (savedName && userName) {
-    userName.textContent = savedName;
-  }
-  
-  if (savedName && profileNameInput) {
-    profileNameInput.value = savedName;
-  }
-  
-  if (savedEmail && profileEmailInput) {
-    profileEmailInput.value = savedEmail;
-  }
-}
-
-// Load user stats
-function loadUserStats() {
-  // Load streak
-  const streak = localStorage.getItem('userStreak') || '0';
-  if (daysStreakEl) daysStreakEl.textContent = streak;
-  
-  // Load points
-  const points = localStorage.getItem('userPoints') || '0';
-  if (totalPointsEl) totalPointsEl.textContent = points;
-  
-  // Load study time
-  const studyHours = localStorage.getItem('userStudyHours') || '0';
-  if (studyTimeEl) studyTimeEl.textContent = `${studyHours}h`;
-  
-  // Load completed lessons
-  let completedCount = 0;
-  for (let i = 1; i <= 20; i++) {
-    const progress = localStorage.getItem(`lesson_${i}_progress`);
-    if (progress && parseInt(progress) === 100) {
-      completedCount++;
-    }
-  }
-  
-  if (completedLessonsEl) {
-    completedLessonsEl.textContent = `${completedCount}/20`;
-    
-    // Update progress bar
-    const progressBar = completedLessonsEl.closest('.overview-item').querySelector('.progress-bar');
-    if (progressBar) {
-      progressBar.style.width = `${(completedCount / 20) * 100}%`;
-    }
-  }
-  
-  // Update next level progress
-  const pointsForNextLevel = 100;
-  const currentPoints = parseInt(points);
-  const progress = Math.min(100, (currentPoints / pointsForNextLevel) * 100);
-  
-  if (nextLevelProgressEl) {
-    nextLevelProgressEl.textContent = `${currentPoints}/${pointsForNextLevel} puntos`;
-    
-    // Update progress bar
-    const progressBar = nextLevelProgressEl.closest('.overview-item').querySelector('.progress-bar');
-    if (progressBar) {
-      progressBar.style.width = `${progress}%`;
-    }
-  }
-  
-  // Update level markers
-  updateLevelMarkers(currentPoints);
-}
-
-// Update level markers
-function updateLevelMarkers(points) {
-  const levelMarkers = document.querySelectorAll('.level-marker');
-  
-  if (levelMarkers.length === 0) return;
-  
-  // Reset active state
-  levelMarkers.forEach(marker => marker.classList.remove('active'));
-  
-  // Determine active level based on points
-  let activeLevel;
-  if (points >= 500) {
-    activeLevel = 'C2';
-  } else if (points >= 400) {
-    activeLevel = 'C1';
-  } else if (points >= 300) {
-    activeLevel = 'B2';
-  } else if (points >= 200) {
-    activeLevel = 'B1';
-  } else if (points >= 100) {
-    activeLevel = 'A2';
-  } else {
-    activeLevel = 'A1';
-  }
-  
-  // Set active marker
-  const activeLevelMarker = document.querySelector(`.level-marker[data-level="${activeLevel}"]`);
-  if (activeLevelMarker) {
-    activeLevelMarker.classList.add('active');
-  }
-}
-
-// Load recent activity
-function loadRecentActivity() {
-  if (!activityListEl) return;
-  
-  // Check for saved activities
-  const savedActivities = localStorage.getItem('userActivities');
-  
-  if (!savedActivities) {
-    // No activities, already showing default state
-    return;
-  }
-  
-  try {
-    const activities = JSON.parse(savedActivities);
-    
-    if (activities.length === 0) {
-      // No activities, already showing default state
-      return;
-    }
-    
-    // Clear no activity message
-    activityListEl.innerHTML = '';
-    
-    // Add activity items
-    activities.forEach(activity => {
-      const activityItem = document.createElement('div');
-      activityItem.className = 'activity-item';
-      
-      activityItem.innerHTML = `
-        <div class="activity-icon ${activity.type}">
-          <i class="fas ${activity.type === 'lesson' ? 'fa-book' : 'fa-clipboard-check'}"></i>
-        </div>
-        <div class="activity-info">
-          <div class="activity-title">${activity.title}</div>
-          <div class="activity-time">${formatTimeAgo(activity.timestamp)}</div>
-        </div>
-        ${activity.points ? `<div class="activity-score">+${activity.points}</div>` : ''}
-      `;
-      
-      activityListEl.appendChild(activityItem);
-    });
-  } catch (error) {
-    console.error('Error loading activities:', error);
-  }
-}
-
-// Open profile modal
-function openProfileModal() {
-  profileModal.classList.remove('hidden');
-}
-
-// Open settings modal
-function openSettingsModal() {
-  settingsModal.classList.remove('hidden');
-}
-
-// Close modal
-function closeModal(modal) {
-  modal.classList.add('hidden');
-}
-
-// Save user profile
-function saveUserProfile(event) {
-  event.preventDefault();
-  
-  const name = profileNameInput.value.trim();
-  const email = profileEmailInput.value.trim();
-  
-  // Validate inputs (basic validation)
-  if (!name) {
-    showError('Por favor ingresa tu nombre');
-    return;
-  }
-  
-  // Save to localStorage
-  localStorage.setItem('userName', name);
-  localStorage.setItem('userEmail', email);
-  
-  // Update UI
-  if (userName) {
-    userName.textContent = name;
-  }
-  
-  // Close modal
-  closeModal(profileModal);
-  
-  // Show success notification
-  if (window.showNotification) {
-    window.showNotification('Perfil actualizado correctamente');
-  }
-}
-
-// Helper function to format timestamp to relative time
-function formatTimeAgo(timestamp) {
-  const now = new Date();
-  const date = new Date(timestamp);
-  const seconds = Math.floor((now - date) / 1000);
-  
-  let interval = Math.floor(seconds / 31536000);
-  if (interval >= 1) {
-    return interval === 1 ? 'hace 1 año' : `hace ${interval} años`;
-  }
-  
-  interval = Math.floor(seconds / 2592000);
-  if (interval >= 1) {
-    return interval === 1 ? 'hace 1 mes' : `hace ${interval} meses`;
-  }
-  
-  interval = Math.floor(seconds / 86400);
-  if (interval >= 1) {
-    return interval === 1 ? 'hace 1 día' : `hace ${interval} días`;
-  }
-  
-  interval = Math.floor(seconds / 3600);
-  if (interval >= 1) {
-    return interval === 1 ? 'hace 1 hora' : `hace ${interval} horas`;
-  }
-  
-  interval = Math.floor(seconds / 60);
-  if (interval >= 1) {
-    return interval === 1 ? 'hace 1 minuto' : `hace ${interval} minutos`;
-  }
-  
-  return seconds < 5 ? 'justo ahora' : `hace ${seconds} segundos`;
-}
-
-// Show error message (simple alert for now)
-function showError(message) {
-  alert(message);
 }

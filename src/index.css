@@ -1,0 +1,139 @@
+
+/* Main CSS file */
+:root {
+  --background: #ffffff;
+  --foreground: #222222;
+  --primary: #ef4444;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #1f2937;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #222222;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --radius: 0.5rem;
+}
+
+:root[data-theme="dark"] {
+  --background: #1c1c1c;
+  --foreground: #f3f4f6;
+  --primary: #ef4444;
+  --primary-foreground: #ffffff;
+  --secondary: #2d2d2d;
+  --secondary-foreground: #f3f4f6;
+  --muted: #2d2d2d;
+  --muted-foreground: #a1a1aa;
+  --accent: #2d2d2d;
+  --accent-foreground: #f3f4f6;
+  --card: #262626;
+  --card-foreground: #f3f4f6;
+  --border: #3f3f46;
+  --input: #3f3f46;
+}
+
+:root[data-contrast="high-contrast"] {
+  --background: #ffffff;
+  --foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #000000;
+  --secondary-foreground: #ffffff;
+  --muted: #000000;
+  --muted-foreground: #ffffff;
+  --accent: #000000;
+  --accent-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --border: #000000;
+  --input: #000000;
+}
+
+:root[data-theme="dark"][data-contrast="high-contrast"] {
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #ffffff;
+  --secondary-foreground: #000000;
+  --muted: #ffffff;
+  --muted-foreground: #000000;
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --border: #ffffff;
+  --input: #ffffff;
+}
+
+:root[data-font-size="large"] {
+  font-size: 118.75%;
+}
+
+:root[data-font-size="extra-large"] {
+  font-size: 137.5%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.5;
+}
+
+.max-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.glass-card {
+  background-color: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.button {
+  display: inline-block;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #dc2626;
+  text-decoration: none;
+}
+
+.button.outline {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.button.outline:hover {
+  background-color: var(--secondary);
+}

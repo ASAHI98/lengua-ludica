@@ -1,222 +1,119 @@
 
-// Blog page functionality
 document.addEventListener('DOMContentLoaded', function() {
-  // Blog posts data - in a real application, this would come from a server
+  // Sample blog data
   const blogPosts = [
     {
-      id: "1",
-      title: "Cómo dominar los verbos irregulares en español",
-      summary: "Aprende las estrategias más efectivas para memorizar y utilizar correctamente los verbos irregulares en español.",
-      date: "15 de junio de 2023",
-      author: "María Rodríguez",
-      category: "Gramática",
-      readTime: "5 min",
-      image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop&q=60"
+      id: 1,
+      title: 'Los 10 verbos más comunes en español',
+      excerpt: 'Aprende los verbos más utilizados en las conversaciones cotidianas y cómo conjugarlos correctamente.',
+      category: 'Gramática',
+      date: '2025-03-25',
+      author: 'María Rodríguez',
+      authorImage: 'placeholder.svg',
+      image: 'placeholder.svg'
     },
     {
-      id: "2",
-      title: "Los falsos amigos entre inglés y español",
-      summary: "Descubre las palabras que parecen similares entre inglés y español pero tienen significados completamente diferentes.",
-      date: "3 de mayo de 2023",
-      author: "Carlos Martínez",
-      category: "Vocabulario",
-      readTime: "8 min",
-      image: "https://images.unsplash.com/photo-1555431189-0fabf2667795?w=500&auto=format&fit=crop&q=60"
+      id: 2,
+      title: 'Errores comunes de los anglohablantes',
+      excerpt: 'Descubre los errores más frecuentes que cometen los hablantes de inglés cuando aprenden español.',
+      category: 'Consejos',
+      date: '2025-03-18',
+      author: 'Carlos Gutiérrez',
+      authorImage: 'placeholder.svg',
+      image: 'placeholder.svg'
     },
     {
-      id: "3",
-      title: "El subjuntivo español: cuándo y cómo utilizarlo",
-      summary: "Una guía completa sobre el modo subjuntivo, uno de los aspectos más complicados de la gramática española.",
-      date: "22 de abril de 2023",
-      author: "Ana López",
-      category: "Gramática",
-      readTime: "10 min",
-      image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&auto=format&fit=crop&q=60"
+      id: 3,
+      title: 'Expresiones coloquiales de España',
+      excerpt: 'Conoce las frases y expresiones más utilizadas por los españoles en su día a día.',
+      category: 'Vocabulario',
+      date: '2025-03-10',
+      author: 'Laura Méndez',
+      authorImage: 'placeholder.svg',
+      image: 'placeholder.svg'
     },
     {
-      id: "4",
-      title: "Expresiones idiomáticas españolas y su origen",
-      summary: "Conoce el significado y la historia detrás de algunas de las expresiones idiomáticas más populares en español.",
-      date: "10 de marzo de 2023",
-      author: "Javier Sánchez",
-      category: "Cultura",
-      readTime: "7 min",
-      image: "https://images.unsplash.com/photo-1551029506-0807df4e2031?w=500&auto=format&fit=crop&q=60"
+      id: 4,
+      title: 'Diferencias entre español latinoamericano y peninsular',
+      excerpt: 'Analiza las principales diferencias léxicas y gramaticales entre el español de América Latina y España.',
+      category: 'Cultura',
+      date: '2025-03-01',
+      author: 'Javier Ortiz',
+      authorImage: 'placeholder.svg',
+      image: 'placeholder.svg'
     },
     {
-      id: "5",
-      title: "Técnicas de memorización para aprender vocabulario",
-      summary: "Estrategias prácticas para ampliar tu vocabulario en español de manera efectiva y duradera.",
-      date: "18 de febrero de 2023",
-      author: "Laura Fernández",
-      category: "Vocabulario",
-      readTime: "6 min",
-      image: "https://images.unsplash.com/photo-1456406644174-8ddd4cd52a06?w=500&auto=format&fit=crop&q=60"
+      id: 5,
+      title: 'Técnicas de memorización para aprender vocabulario',
+      excerpt: 'Métodos efectivos para recordar palabras nuevas y ampliar tu léxico en español.',
+      category: 'Consejos',
+      date: '2025-02-22',
+      author: 'Ana Sánchez',
+      authorImage: 'placeholder.svg',
+      image: 'placeholder.svg'
     },
     {
-      id: "6",
-      title: "La pronunciación española: consejos para hablantes de inglés",
-      summary: "Guía práctica para mejorar tu acento español si tu lengua materna es el inglés.",
-      date: "5 de enero de 2023",
-      author: "Diego Morales",
-      category: "Pronunciación",
-      readTime: "9 min",
-      image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=500&auto=format&fit=crop&q=60"
+      id: 6,
+      title: 'El subjuntivo: Cuándo y cómo utilizarlo',
+      excerpt: 'Guía práctica para entender y usar correctamente uno de los tiempos verbales más difíciles del español.',
+      category: 'Gramática',
+      date: '2025-02-15',
+      author: 'Roberto Fernández',
+      authorImage: 'placeholder.svg',
+      image: 'placeholder.svg'
     }
   ];
   
-  // DOM elements
-  const blogGrid = document.querySelector('.blog-grid');
-  const paginationNumbers = document.querySelectorAll('.pagination-number');
-  const prevBtn = document.querySelector('.pagination-prev');
-  const nextBtn = document.querySelector('.pagination-next');
+  // Load blog posts
+  const blogContainer = document.getElementById('blog-posts-container');
   
-  // Initialize blog
-  function initBlog() {
-    renderBlogPosts();
-    setupPagination();
-  }
-  
-  // Render blog posts
-  function renderBlogPosts() {
-    if (!blogGrid) return;
-    
-    // Clear grid
-    blogGrid.innerHTML = '';
-    
-    // Create blog post cards
+  if (blogContainer) {
     blogPosts.forEach(post => {
-      const postCard = document.createElement('article');
-      postCard.className = 'blog-card';
-      
-      postCard.innerHTML = `
-        <div class="blog-card-header">
-          <div class="blog-meta">
-            <span class="blog-category">${post.category}</span>
-            <span class="blog-read-time"><i class="fas fa-book"></i> ${post.readTime}</span>
-          </div>
-          <h2 class="blog-title">${post.title}</h2>
-          <div class="blog-date">
-            <i class="fas fa-calendar-days"></i>
-            <span>${post.date}</span>
-          </div>
-        </div>
-        <div class="blog-content">
-          <p>${post.summary}</p>
-        </div>
-        <div class="blog-footer">
-          <div class="blog-author">
-            <i class="fas fa-user"></i>
-            <span>${post.author}</span>
-          </div>
-          <button class="btn btn-text" data-post-id="${post.id}">Leer más</button>
-        </div>
-      `;
-      
-      blogGrid.appendChild(postCard);
-    });
-    
-    // Add event listeners to read more buttons
-    setupReadMoreButtons();
-  }
-  
-  // Setup read more buttons
-  function setupReadMoreButtons() {
-    const readMoreButtons = document.querySelectorAll('.blog-card .btn-text');
-    
-    readMoreButtons.forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const postId = this.dataset.postId;
-        const post = blogPosts.find(p => p.id === postId);
-        
-        // In a real app, this would navigate to the full blog post
-        console.log(`Navigate to full post: ${post.title}`);
-        
-        // Show notification
-        if (window.showNotification) {
-          window.showNotification(`Abriendo artículo: ${post.title}`);
-        }
-      });
+      const postElement = createBlogPostElement(post);
+      blogContainer.appendChild(postElement);
     });
   }
-  
-  // Setup pagination
-  function setupPagination() {
-    if (!paginationNumbers || !prevBtn || !nextBtn) return;
-    
-    paginationNumbers.forEach(btn => {
-      btn.addEventListener('click', function() {
-        // In a real app, this would load the appropriate page
-        document.querySelectorAll('.pagination-number').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        
-        // Update prev/next button states
-        const currentPage = parseInt(this.textContent);
-        prevBtn.disabled = currentPage === 1;
-        nextBtn.disabled = currentPage === paginationNumbers.length;
-        
-        // Show notification
-        if (window.showNotification) {
-          window.showNotification(`Página ${currentPage} cargada`);
-        }
-      });
-    });
-    
-    nextBtn.addEventListener('click', function() {
-      const currentActive = document.querySelector('.pagination-number.active');
-      const currentPage = parseInt(currentActive.textContent);
-      
-      if (currentPage < paginationNumbers.length) {
-        currentActive.classList.remove('active');
-        document.querySelector(`.pagination-number:nth-child(${currentPage + 1})`).classList.add('active');
-        
-        prevBtn.disabled = false;
-        nextBtn.disabled = currentPage + 1 === paginationNumbers.length;
-        
-        // Show notification
-        if (window.showNotification) {
-          window.showNotification(`Página ${currentPage + 1} cargada`);
-        }
-      }
-    });
-    
-    prevBtn.addEventListener('click', function() {
-      const currentActive = document.querySelector('.pagination-number.active');
-      const currentPage = parseInt(currentActive.textContent);
-      
-      if (currentPage > 1) {
-        currentActive.classList.remove('active');
-        document.querySelector(`.pagination-number:nth-child(${currentPage - 1})`).classList.add('active');
-        
-        nextBtn.disabled = false;
-        prevBtn.disabled = currentPage - 1 === 1;
-        
-        // Show notification
-        if (window.showNotification) {
-          window.showNotification(`Página ${currentPage - 1} cargada`);
-        }
-      }
-    });
-  }
-  
-  // Common notification function (if not already defined)
-  if (!window.showNotification) {
-    window.showNotification = function(message) {
-      const notification = document.getElementById('notification');
-      const notificationMessage = document.getElementById('notification-message');
-      
-      if (notification && notificationMessage) {
-        notificationMessage.textContent = message;
-        notification.classList.add('show');
-        
-        setTimeout(() => {
-          notification.classList.remove('show');
-        }, 3000);
-      }
-    };
-  }
-  
-  // Initialize the blog functionality
-  initBlog();
 });
+
+function createBlogPostElement(post) {
+  const article = document.createElement('article');
+  article.className = 'blog-card';
+  
+  // Format the date nicely
+  const postDate = new Date(post.date);
+  const formattedDate = postDate.toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+  
+  article.innerHTML = `
+    <img src="${post.image}" alt="${post.title}" class="blog-image">
+    <div class="blog-content">
+      <div class="blog-meta">
+        <span class="blog-category">${post.category}</span>
+        <span class="blog-date">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${formattedDate}
+        </span>
+      </div>
+      <h2 class="blog-title">${post.title}</h2>
+      <p class="blog-excerpt">${post.excerpt}</p>
+      <div class="blog-author">
+        <div class="author-avatar">
+          <img src="${post.authorImage}" alt="${post.author}">
+        </div>
+        <span class="author-name">${post.author}</span>
+      </div>
+    </div>
+  `;
+  
+  // Make the article clickable
+  article.style.cursor = 'pointer';
+  article.addEventListener('click', () => {
+    // In a real app, this would navigate to the post detail page
+    console.log(`Clicked post: ${post.id}`);
+  });
+  
+  return article;
+}
