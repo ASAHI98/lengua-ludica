@@ -4,170 +4,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lecciones - EspañolApps</title>
+  <title>Lecciones de Español - Aprende Español</title>
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/theme.css">
   <link rel="stylesheet" href="styles/lecciones.css">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="light-theme">
+  <!-- Header -->
   <header class="header">
-    <div class="container header-container">
-      <a href="index.html" class="logo">
-        <i class="fas fa-book-open"></i>
-        <span>EspañolApps</span>
-      </a>
-      
-      <nav class="desktop-nav">
-        <a href="index.html" class="nav-link">Inicio</a>
-        <a href="lecciones.html" class="nav-link active">Lecciones</a>
-        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
-        <a href="metodologia.html" class="nav-link">Metodología</a>
-        <a href="blog.html" class="nav-link">Blog</a>
-        <a href="perfil.html" class="nav-link">Mi Perfil</a>
-      </nav>
-      
-      <div class="header-controls">
-        <button id="accessibility-toggle" class="btn btn-icon" aria-label="Configuración de accesibilidad">
-          <i class="fas fa-glasses"></i>
-        </button>
-        <button id="theme-toggle" class="btn btn-icon" aria-label="Cambiar tema">
-          <i class="fas fa-moon"></i>
-        </button>
-        <button id="mobile-menu-toggle" class="btn btn-icon mobile-only" aria-label="Abrir menú">
-          <i class="fas fa-bars"></i>
-        </button>
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="Aprende Español" class="logo-img">
+          <span>Aprende Español</span>
+        </a>
+        <nav class="main-nav">
+          <ul class="nav-list">
+            <li><a href="index.html" class="nav-link">Inicio</a></li>
+            <li><a href="lecciones.html" class="nav-link nav-link-active">Lecciones</a></li>
+            <li><a href="blog.html" class="nav-link">Blog</a></li>
+            <li><a href="evaluacion.html" class="nav-link">Evaluación</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button id="theme-toggle" class="icon-btn" aria-label="Cambiar tema">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="accessibility-toggle" class="icon-btn" aria-label="Configuración de accesibilidad">
+            <i class="fas fa-universal-access"></i>
+          </button>
+          <a href="perfil.html" class="profile-link">
+            <div class="avatar">
+              <span>US</span>
+            </div>
+          </a>
+        </div>
       </div>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu">
-      <nav class="mobile-nav">
-        <a href="index.html" class="nav-link">Inicio</a>
-        <a href="lecciones.html" class="nav-link">Lecciones</a>
-        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
-        <a href="metodologia.html" class="nav-link">Metodología</a>
-        <a href="blog.html" class="nav-link">Blog</a>
-        <a href="perfil.html" class="nav-link">Mi Perfil</a>
-      </nav>
     </div>
   </header>
 
+  <!-- Main Content -->
   <main>
-    <div class="page-header">
-      <div class="container">
-        <h1>Lecciones de español</h1>
-        <p>Explora nuestras lecciones organizadas por nivel y tema</p>
+    <div class="container">
+      <div class="page-header">
+        <h1>Lecciones de Español</h1>
+        <p>Aprende español paso a paso con nuestras lecciones interactivas</p>
+      </div>
+
+      <div class="lessons-filter">
+        <div class="filter-section">
+          <h3>Nivel</h3>
+          <div class="filter-options">
+            <button class="filter-option active" data-filter="level" data-value="all">Todos</button>
+            <button class="filter-option" data-filter="level" data-value="a1">A1</button>
+            <button class="filter-option" data-filter="level" data-value="a2">A2</button>
+            <button class="filter-option" data-filter="level" data-value="b1">B1</button>
+            <button class="filter-option" data-filter="level" data-value="b2">B2</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <h3>Categoría</h3>
+          <div class="filter-options">
+            <button class="filter-option active" data-filter="category" data-value="all">Todas</button>
+            <button class="filter-option" data-filter="category" data-value="grammar">Gramática</button>
+            <button class="filter-option" data-filter="category" data-value="vocabulary">Vocabulario</button>
+            <button class="filter-option" data-filter="category" data-value="conversation">Conversación</button>
+            <button class="filter-option" data-filter="category" data-value="culture">Cultura</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="lessons-grid" id="lessons-grid">
+        <!-- Lessons will be loaded dynamically by JavaScript -->
       </div>
     </div>
-    
-    <section class="lessons-section">
-      <div class="container">
-        <div class="lessons-filter">
-          <div class="filter-controls">
-            <select id="level-filter" class="filter-select">
-              <option value="all">Todos los niveles</option>
-              <option value="a1">A1 - Principiante</option>
-              <option value="a2">A2 - Elemental</option>
-              <option value="b1">B1 - Intermedio</option>
-              <option value="b2">B2 - Intermedio Alto</option>
-              <option value="c1">C1 - Avanzado</option>
-            </select>
-            
-            <select id="category-filter" class="filter-select">
-              <option value="all">Todas las categorías</option>
-              <option value="grammar">Gramática</option>
-              <option value="vocabulary">Vocabulario</option>
-              <option value="conversation">Conversación</option>
-              <option value="culture">Cultura</option>
-            </select>
-            
-            <div class="search-box">
-              <input type="text" id="search-lessons" placeholder="Buscar lecciones...">
-              <i class="fas fa-search"></i>
-            </div>
-          </div>
-        </div>
-        
-        <div class="lessons-grid" id="lessons-container">
-          <!-- Lessons will be added dynamically by JS -->
-        </div>
-        
-        <div class="pagination">
-          <button class="btn btn-outline btn-sm" id="prev-page">
-            <i class="fas fa-chevron-left"></i> Anterior
-          </button>
-          <div id="pagination-numbers"></div>
-          <button class="btn btn-outline btn-sm" id="next-page">
-            Siguiente <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      </div>
-    </section>
   </main>
 
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-grid">
+      <div class="footer-content">
         <div class="footer-brand">
-          <a href="index.html" class="logo">
-            <span class="logo-text">Lengua Lúdica</span>
-          </a>
-          <p class="footer-description">
-            Plataforma educativa dedicada a la enseñanza del español mediante metodologías inmersivas e interactivas, adaptadas a las necesidades del siglo XXI.
-          </p>
-          <div class="social-links">
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
-            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <img src="images/logo.png" alt="Aprende Español" class="footer-logo">
+          <p>Aprende español de forma fácil y divertida con nuestras lecciones interactivas.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-links-section">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="lecciones.html">Lecciones</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="evaluacion.html">Evaluación</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-section">
+            <h3>Recursos</h3>
+            <ul>
+              <li><a href="#">Diccionario</a></li>
+              <li><a href="#">Conjugador</a></li>
+              <li><a href="#">Guías de gramática</a></li>
+              <li><a href="#">Podcasts</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-section">
+            <h3>Contacto</h3>
+            <ul>
+              <li><a href="#">Sobre nosotros</a></li>
+              <li><a href="#">Ayuda</a></li>
+              <li><a href="#">Contacto</a></li>
+              <li><a href="#">Privacidad</a></li>
+            </ul>
           </div>
         </div>
-        
-        <div class="footer-links">
-          <h4>Plataforma</h4>
-          <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="lecciones.html">Lecciones</a></li>
-            <li><a href="recursos.html">Recursos</a></li>
-            <li><a href="blog.html">Blog</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-links">
-          <h4>Empresa</h4>
-          <ul>
-            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="carreras.html">Carreras</a></li>
-            <li><a href="prensa.html">Prensa</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-links">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="terminos.html">Términos de Servicio</a></li>
-            <li><a href="privacidad.html">Política de Privacidad</a></li>
-            <li><a href="cookies.html">Cookies</a></li>
-          </ul>
-        </div>
       </div>
-      
       <div class="footer-bottom">
-        <p>&copy; <span id="current-year">2025</span> Lengua Lúdica. Todos los derechos reservados.</p>
-        <div class="footer-bottom-links">
-          <a href="#">Idioma: Español</a>
-          <a href="#">Ayuda</a>
+        <p>&copy; 2023 Aprende Español. Todos los derechos reservados.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <!-- Settings Panel (Hidden by default) -->
+  <div id="settings-panel" class="settings-panel">
+    <div class="settings-panel-header">
+      <h2>Configuración de accesibilidad</h2>
+      <button id="close-settings" class="close-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="settings-panel-content">
+      <!-- Same settings panel content as in blog.html -->
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <div class="notification-content">
+      <span id="notification-message">Mensaje de notificación</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="js/theme.js"></script>
   <script src="js/accessibility.js"></script>
-  <script src="js/lessons.js"></script>
+  <script src="js/lecciones.js"></script>
 </body>
 </html>

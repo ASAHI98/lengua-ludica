@@ -4,216 +4,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lección - EspañolApps</title>
+  <title>Detalle de Lección - Aprende Español</title>
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/theme.css">
   <link rel="stylesheet" href="styles/leccion.css">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="light-theme">
+  <!-- Header -->
   <header class="header">
-    <div class="container header-container">
-      <a href="index.html" class="logo">
-        <i class="fas fa-book-open"></i>
-        <span>EspañolApps</span>
-      </a>
-      
-      <nav class="desktop-nav">
-        <a href="index.html" class="nav-link">Inicio</a>
-        <a href="lecciones.html" class="nav-link">Lecciones</a>
-        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
-        <a href="metodologia.html" class="nav-link">Metodología</a>
-        <a href="blog.html" class="nav-link">Blog</a>
-        <a href="perfil.html" class="nav-link">Mi Perfil</a>
-      </nav>
-      
-      <div class="header-controls">
-        <button id="accessibility-toggle" class="btn btn-icon" aria-label="Configuración de accesibilidad">
-          <i class="fas fa-glasses"></i>
-        </button>
-        <button id="theme-toggle" class="btn btn-icon" aria-label="Cambiar tema">
-          <i class="fas fa-moon"></i>
-        </button>
-        <button id="mobile-menu-toggle" class="btn btn-icon mobile-only" aria-label="Abrir menú">
-          <i class="fas fa-bars"></i>
-        </button>
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="Aprende Español" class="logo-img">
+          <span>Aprende Español</span>
+        </a>
+        <nav class="main-nav">
+          <ul class="nav-list">
+            <li><a href="index.html" class="nav-link">Inicio</a></li>
+            <li><a href="lecciones.html" class="nav-link">Lecciones</a></li>
+            <li><a href="blog.html" class="nav-link">Blog</a></li>
+            <li><a href="evaluacion.html" class="nav-link">Evaluación</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button id="theme-toggle" class="icon-btn" aria-label="Cambiar tema">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="accessibility-toggle" class="icon-btn" aria-label="Configuración de accesibilidad">
+            <i class="fas fa-universal-access"></i>
+          </button>
+          <a href="perfil.html" class="profile-link">
+            <div class="avatar">
+              <span>US</span>
+            </div>
+          </a>
+        </div>
       </div>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu">
-      <nav class="mobile-nav">
-        <a href="index.html" class="nav-link">Inicio</a>
-        <a href="lecciones.html" class="nav-link">Lecciones</a>
-        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
-        <a href="metodologia.html" class="nav-link">Metodología</a>
-        <a href="blog.html" class="nav-link">Blog</a>
-        <a href="perfil.html" class="nav-link">Mi Perfil</a>
-      </nav>
     </div>
   </header>
 
+  <!-- Main Content -->
   <main>
-    <div class="lesson-header">
-      <div class="container">
-        <div class="lesson-breadcrumb">
+    <div class="container">
+      <div class="lesson-header">
+        <div class="lesson-breadcrumbs">
           <a href="lecciones.html">Lecciones</a>
           <i class="fas fa-chevron-right"></i>
-          <span id="lesson-title-breadcrumb">Cargando...</span>
+          <span id="lesson-title-breadcrumb">Título de la Lección</span>
         </div>
         
-        <div class="lesson-hero">
+        <div class="lesson-content">
           <div class="lesson-info">
-            <div class="lesson-badges">
-              <span class="lesson-level" id="lesson-level">Nivel</span>
-              <span class="lesson-category" id="lesson-category">Categoría</span>
-            </div>
-            <h1 id="lesson-title">Cargando lección...</h1>
-            <p id="lesson-description">Por favor espere mientras cargamos la información de la lección.</p>
             <div class="lesson-meta">
+              <span id="lesson-level" class="lesson-level level-a1">A1 - Principiante</span>
+              <span id="lesson-category" class="lesson-category grammar">Gramática</span>
+            </div>
+            
+            <h1 id="lesson-title" class="lesson-title">Título de la Lección</h1>
+            <p id="lesson-description" class="lesson-description">Descripción de la lección con detalles sobre lo que se va a aprender.</p>
+            
+            <div class="lesson-stats">
               <div class="lesson-stat">
                 <i class="fas fa-clock"></i>
-                <span id="lesson-duration">0 min</span>
+                <span id="lesson-duration">30 min</span>
               </div>
               <div class="lesson-stat">
-                <i class="fas fa-tasks"></i>
-                <span id="lesson-exercises">0 ejercicios</span>
+                <i class="fas fa-list-check"></i>
+                <span id="lesson-exercises">12 ejercicios</span>
+              </div>
+            </div>
+            
+            <div class="lesson-progress">
+              <div class="progress-label">
+                <span>Progreso</span>
+                <span id="progress-percent">10%</span>
+              </div>
+              <div class="progress">
+                <div id="progress-bar" class="progress-bar" style="width: 10%"></div>
               </div>
             </div>
           </div>
+          
           <div class="lesson-image-container">
             <img id="lesson-image" src="https://images.unsplash.com/photo-1581781870027-c6b5d2c3c936" alt="Lección" class="lesson-image">
           </div>
         </div>
-        
-        <div class="lesson-progress-bar">
-          <div class="progress-info">
-            <span>Progreso: </span>
-            <span id="progress-percent">0%</span>
-          </div>
-          <div class="progress">
-            <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
-          </div>
-        </div>
       </div>
-    </div>
-    
-    <div class="lesson-content">
-      <div class="container">
-        <div class="lesson-layout">
-          <!-- Lesson Module Navigation -->
-          <aside class="lesson-nav">
-            <h2>Módulos de la lección</h2>
-            <ul id="module-list" class="module-list">
-              <!-- Modules will be loaded by JavaScript -->
-            </ul>
-          </aside>
+      
+      <div class="lesson-content-wrapper">
+        <div class="lesson-sidebar">
+          <h3>Módulos</h3>
+          <ul id="module-list" class="module-list">
+            <!-- Modules will be populated by JavaScript -->
+          </ul>
+        </div>
+        
+        <div class="lesson-main">
+          <div id="module-content" class="module-content">
+            <!-- Current module content will be populated by JavaScript -->
+          </div>
           
-          <!-- Main Lesson Content -->
-          <div class="lesson-main">
-            <div id="module-content" class="module-content">
-              <!-- Content will be loaded by JavaScript -->
-              <div class="module-loading">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Cargando contenido de la lección...</p>
-              </div>
-            </div>
-            
-            <div class="lesson-navigation">
-              <button id="prev-module" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i> Anterior
-              </button>
-              <button id="next-module" class="btn btn-primary">
-                Siguiente <i class="fas fa-arrow-right"></i>
-              </button>
-            </div>
+          <div class="module-navigation">
+            <button id="prev-module" class="btn btn-outline" disabled>
+              <i class="fas fa-arrow-left"></i>
+              Anterior
+            </button>
+            <button id="next-module" class="btn btn-primary">
+              Siguiente
+              <i class="fas fa-arrow-right"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </main>
 
+  <!-- Completion Modal -->
+  <div id="completion-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2>¡Ejercicio Completado!</h2>
+      <p>Felicidades, has completado este ejercicio correctamente.</p>
+      <div class="modal-actions">
+        <button id="close-modal" class="btn btn-outline">Cerrar</button>
+        <button id="continue-learning" class="btn btn-primary">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-grid">
+      <div class="footer-content">
         <div class="footer-brand">
-          <a href="index.html" class="logo">
-            <span class="logo-text">Lengua Lúdica</span>
-          </a>
-          <p class="footer-description">
-            Plataforma educativa dedicada a la enseñanza del español mediante metodologías inmersivas e interactivas, adaptadas a las necesidades del siglo XXI.
-          </p>
-          <div class="social-links">
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
-            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <img src="images/logo.png" alt="Aprende Español" class="footer-logo">
+          <p>Aprende español de forma fácil y divertida con nuestras lecciones interactivas.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-links-section">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="lecciones.html">Lecciones</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="evaluacion.html">Evaluación</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-section">
+            <h3>Recursos</h3>
+            <ul>
+              <li><a href="#">Diccionario</a></li>
+              <li><a href="#">Conjugador</a></li>
+              <li><a href="#">Guías de gramática</a></li>
+              <li><a href="#">Podcasts</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-section">
+            <h3>Contacto</h3>
+            <ul>
+              <li><a href="#">Sobre nosotros</a></li>
+              <li><a href="#">Ayuda</a></li>
+              <li><a href="#">Contacto</a></li>
+              <li><a href="#">Privacidad</a></li>
+            </ul>
           </div>
         </div>
-        
-        <div class="footer-links">
-          <h4>Plataforma</h4>
-          <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="lecciones.html">Lecciones</a></li>
-            <li><a href="recursos.html">Recursos</a></li>
-            <li><a href="blog.html">Blog</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-links">
-          <h4>Empresa</h4>
-          <ul>
-            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="carreras.html">Carreras</a></li>
-            <li><a href="prensa.html">Prensa</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-links">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="terminos.html">Términos de Servicio</a></li>
-            <li><a href="privacidad.html">Política de Privacidad</a></li>
-            <li><a href="cookies.html">Cookies</a></li>
-          </ul>
-        </div>
       </div>
-      
       <div class="footer-bottom">
-        <p>&copy; <span id="current-year">2025</span> Lengua Lúdica. Todos los derechos reservados.</p>
-        <div class="footer-bottom-links">
-          <a href="#">Idioma: Español</a>
-          <a href="#">Ayuda</a>
+        <p>&copy; 2023 Aprende Español. Todos los derechos reservados.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
-  <div id="completion-modal" class="modal hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>¡Felicidades!</h2>
-        <button id="close-modal" class="modal-close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="completion-icon">
-          <i class="fas fa-trophy"></i>
-        </div>
-        <p>Has completado el módulo correctamente.</p>
-        <div class="points-earned">
-          <span>+10</span> puntos ganados
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button id="continue-learning" class="btn btn-primary">Continuar aprendiendo</button>
-      </div>
+  <!-- Settings Panel (Hidden by default) -->
+  <div id="settings-panel" class="settings-panel">
+    <div class="settings-panel-header">
+      <h2>Configuración de accesibilidad</h2>
+      <button id="close-settings" class="close-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="settings-panel-content">
+      <!-- Same settings panel content as in blog.html -->
     </div>
   </div>
 
-  <script src="js/main.js"></script>
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <div class="notification-content">
+      <span id="notification-message">Mensaje de notificación</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script src="js/theme.js"></script>
   <script src="js/accessibility.js"></script>
   <script src="js/leccion.js"></script>
