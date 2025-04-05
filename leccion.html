@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lección - EspañolApps</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/theme.css">
+  <link rel="stylesheet" href="styles/leccion.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="light-theme">
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-book-open"></i>
+        <span>EspañolApps</span>
+      </a>
+      
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link">Mi Perfil</a>
+      </nav>
+      
+      <div class="header-controls">
+        <button id="accessibility-toggle" class="btn btn-icon" aria-label="Configuración de accesibilidad">
+          <i class="fas fa-glasses"></i>
+        </button>
+        <button id="theme-toggle" class="btn btn-icon" aria-label="Cambiar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="mobile-menu-toggle" class="btn btn-icon mobile-only" aria-label="Abrir menú">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <nav class="mobile-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="lesson-header">
+      <div class="container">
+        <div class="lesson-breadcrumb">
+          <a href="lecciones.html">Lecciones</a>
+          <i class="fas fa-chevron-right"></i>
+          <span id="lesson-title-breadcrumb">Cargando...</span>
+        </div>
+        
+        <div class="lesson-hero">
+          <div class="lesson-info">
+            <div class="lesson-badges">
+              <span class="lesson-level" id="lesson-level">Nivel</span>
+              <span class="lesson-category" id="lesson-category">Categoría</span>
+            </div>
+            <h1 id="lesson-title">Cargando lección...</h1>
+            <p id="lesson-description">Por favor espere mientras cargamos la información de la lección.</p>
+            <div class="lesson-meta">
+              <div class="lesson-stat">
+                <i class="fas fa-clock"></i>
+                <span id="lesson-duration">0 min</span>
+              </div>
+              <div class="lesson-stat">
+                <i class="fas fa-tasks"></i>
+                <span id="lesson-exercises">0 ejercicios</span>
+              </div>
+            </div>
+          </div>
+          <div class="lesson-image-container">
+            <img id="lesson-image" src="https://images.unsplash.com/photo-1581781870027-c6b5d2c3c936" alt="Lección" class="lesson-image">
+          </div>
+        </div>
+        
+        <div class="lesson-progress-bar">
+          <div class="progress-info">
+            <span>Progreso: </span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress">
+            <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="lesson-content">
+      <div class="container">
+        <div class="lesson-layout">
+          <!-- Lesson Module Navigation -->
+          <aside class="lesson-nav">
+            <h2>Módulos de la lección</h2>
+            <ul id="module-list" class="module-list">
+              <!-- Modules will be loaded by JavaScript -->
+            </ul>
+          </aside>
+          
+          <!-- Main Lesson Content -->
+          <div class="lesson-main">
+            <div id="module-content" class="module-content">
+              <!-- Content will be loaded by JavaScript -->
+              <div class="module-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Cargando contenido de la lección...</p>
+              </div>
+            </div>
+            
+            <div class="lesson-navigation">
+              <button id="prev-module" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Anterior
+              </button>
+              <button id="next-module" class="btn btn-primary">
+                Siguiente <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-text">Lengua Lúdica</span>
+          </a>
+          <p class="footer-description">
+            Plataforma educativa dedicada a la enseñanza del español mediante metodologías inmersivas e interactivas, adaptadas a las necesidades del siglo XXI.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="lecciones.html">Lecciones</a></li>
+            <li><a href="recursos.html">Recursos</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="carreras.html">Carreras</a></li>
+            <li><a href="prensa.html">Prensa</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="terminos.html">Términos de Servicio</a></li>
+            <li><a href="privacidad.html">Política de Privacidad</a></li>
+            <li><a href="cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year">2025</span> Lengua Lúdica. Todos los derechos reservados.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Idioma: Español</a>
+          <a href="#">Ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="completion-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>¡Felicidades!</h2>
+        <button id="close-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="completion-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <p>Has completado el módulo correctamente.</p>
+        <div class="points-earned">
+          <span>+10</span> puntos ganados
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="continue-learning" class="btn btn-primary">Continuar aprendiendo</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/leccion.js"></script>
+</body>
+</html>

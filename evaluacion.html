@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluación Inicial - EspañolApps</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/theme.css">
+  <link rel="stylesheet" href="styles/evaluacion.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="light-theme">
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-book-open"></i>
+        <span>EspañolApps</span>
+      </a>
+      
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link active">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link">Mi Perfil</a>
+      </nav>
+      
+      <div class="header-controls">
+        <button id="accessibility-toggle" class="btn btn-icon" aria-label="Configuración de accesibilidad">
+          <i class="fas fa-glasses"></i>
+        </button>
+        <button id="theme-toggle" class="btn btn-icon" aria-label="Cambiar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="mobile-menu-toggle" class="btn btn-icon mobile-only" aria-label="Abrir menú">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <nav class="mobile-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <h1>Evaluación de nivel</h1>
+        <p>Determina tu nivel actual de español con nuestra prueba diagnóstica</p>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="assessment-wrapper">
+        <div class="assessment-card">
+          <div id="assessment-intro" class="assessment-screen active">
+            <h2>Antes de comenzar</h2>
+            <p>Esta evaluación tiene como objetivo determinar tu nivel actual de español para ofrecerte un plan de aprendizaje personalizado.</p>
+            <p>La prueba consiste en 20 preguntas y tomará aproximadamente 15 minutos en completarse. No utilices diccionarios ni traductores durante la prueba.</p>
+            
+            <div class="assessment-tips">
+              <h3>Consejos:</h3>
+              <ul>
+                <li>Responde con honestidad para obtener resultados precisos</li>
+                <li>Si no sabes una respuesta, selecciona la opción que te parezca más lógica</li>
+                <li>Puedes realizar la prueba en otro momento si lo prefieres</li>
+              </ul>
+            </div>
+            
+            <div class="assessment-levels">
+              <div class="level-item">
+                <div class="level-icon">A1-A2</div>
+                <div class="level-desc">Principiante</div>
+              </div>
+              <div class="level-item">
+                <div class="level-icon">B1-B2</div>
+                <div class="level-desc">Intermedio</div>
+              </div>
+              <div class="level-item">
+                <div class="level-icon">C1-C2</div>
+                <div class="level-desc">Avanzado</div>
+              </div>
+            </div>
+            
+            <button id="start-assessment" class="btn btn-primary btn-lg">Comenzar evaluación</button>
+          </div>
+          
+          <div id="assessment-questions" class="assessment-screen">
+            <div class="assessment-progress">
+              <div class="progress-text">
+                <span>Pregunta <span id="current-question">1</span> de <span id="total-questions">20</span></span>
+              </div>
+              <div class="progress">
+                <div id="question-progress" class="progress-bar" style="width: 5%"></div>
+              </div>
+            </div>
+            
+            <div id="question-container">
+              <!-- Questions will be populated by JavaScript -->
+              <div class="question" data-question="1">
+                <h3>1. Complete la frase: "Buenos días, ¿cómo _______?"</h3>
+                <div class="options">
+                  <label class="option">
+                    <input type="radio" name="q1" value="a">
+                    <span>está</span>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="q1" value="b">
+                    <span>estás</span>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="q1" value="c">
+                    <span>están</span>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="q1" value="d">
+                    <span>estamos</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="assessment-navigation">
+              <button id="prev-question" class="btn btn-outline" disabled>Anterior</button>
+              <button id="next-question" class="btn btn-primary">Siguiente</button>
+            </div>
+          </div>
+          
+          <div id="assessment-result" class="assessment-screen">
+            <div class="result-header">
+              <div class="result-icon">
+                <i class="fas fa-award"></i>
+              </div>
+              <h2>Tu nivel de español</h2>
+            </div>
+            
+            <div class="result-level">
+              <div class="level-badge" id="result-level-badge">B1</div>
+              <div class="level-name" id="result-level-name">Intermedio</div>
+            </div>
+            
+            <div class="result-description">
+              <p>Basado en los resultados de tu evaluación, tu nivel actual de español es <strong>Intermedio (B1)</strong>.</p>
+              <p>Esto significa que puedes comunicarte en situaciones cotidianas, comprender textos sencillos y expresar experiencias y deseos.</p>
+            </div>
+            
+            <div class="result-stats">
+              <div class="stat-item">
+                <span class="stat-label">Vocabulario</span>
+                <div class="stat-bar">
+                  <div class="stat-value" style="width: 65%"></div>
+                </div>
+                <span class="stat-percent">65%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Gramática</span>
+                <div class="stat-bar">
+                  <div class="stat-value" style="width: 70%"></div>
+                </div>
+                <span class="stat-percent">70%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Comprensión</span>
+                <div class="stat-bar">
+                  <div class="stat-value" style="width: 80%"></div>
+                </div>
+                <span class="stat-percent">80%</span>
+              </div>
+            </div>
+            
+            <div class="result-actions">
+              <a href="lecciones.html" class="btn btn-primary">Ver lecciones recomendadas</a>
+              <button id="restart-assessment" class="btn btn-outline">Repetir evaluación</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-text">Lengua Lúdica</span>
+          </a>
+          <p class="footer-description">
+            Plataforma educativa dedicada a la enseñanza del español mediante metodologías inmersivas e interactivas, adaptadas a las necesidades del siglo XXI.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="lecciones.html">Lecciones</a></li>
+            <li><a href="recursos.html">Recursos</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="carreras.html">Carreras</a></li>
+            <li><a href="prensa.html">Prensa</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="terminos.html">Términos de Servicio</a></li>
+            <li><a href="privacidad.html">Política de Privacidad</a></li>
+            <li><a href="cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year">2025</span> Lengua Lúdica. Todos los derechos reservados.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Idioma: Español</a>
+          <a href="#">Ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/evaluacion.js"></script>
+</body>
+</html>

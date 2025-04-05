@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecciones - EspañolApps</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/theme.css">
+  <link rel="stylesheet" href="styles/lecciones.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="light-theme">
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-book-open"></i>
+        <span>EspañolApps</span>
+      </a>
+      
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link active">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link">Mi Perfil</a>
+      </nav>
+      
+      <div class="header-controls">
+        <button id="accessibility-toggle" class="btn btn-icon" aria-label="Configuración de accesibilidad">
+          <i class="fas fa-glasses"></i>
+        </button>
+        <button id="theme-toggle" class="btn btn-icon" aria-label="Cambiar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="mobile-menu-toggle" class="btn btn-icon mobile-only" aria-label="Abrir menú">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <nav class="mobile-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <h1>Lecciones de español</h1>
+        <p>Explora nuestras lecciones organizadas por nivel y tema</p>
+      </div>
+    </div>
+    
+    <section class="lessons-section">
+      <div class="container">
+        <div class="lessons-filter">
+          <div class="filter-controls">
+            <select id="level-filter" class="filter-select">
+              <option value="all">Todos los niveles</option>
+              <option value="a1">A1 - Principiante</option>
+              <option value="a2">A2 - Elemental</option>
+              <option value="b1">B1 - Intermedio</option>
+              <option value="b2">B2 - Intermedio Alto</option>
+              <option value="c1">C1 - Avanzado</option>
+            </select>
+            
+            <select id="category-filter" class="filter-select">
+              <option value="all">Todas las categorías</option>
+              <option value="grammar">Gramática</option>
+              <option value="vocabulary">Vocabulario</option>
+              <option value="conversation">Conversación</option>
+              <option value="culture">Cultura</option>
+            </select>
+            
+            <div class="search-box">
+              <input type="text" id="search-lessons" placeholder="Buscar lecciones...">
+              <i class="fas fa-search"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="lessons-grid" id="lessons-container">
+          <!-- Lessons will be added dynamically by JS -->
+        </div>
+        
+        <div class="pagination">
+          <button class="btn btn-outline btn-sm" id="prev-page">
+            <i class="fas fa-chevron-left"></i> Anterior
+          </button>
+          <div id="pagination-numbers"></div>
+          <button class="btn btn-outline btn-sm" id="next-page">
+            Siguiente <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-text">Lengua Lúdica</span>
+          </a>
+          <p class="footer-description">
+            Plataforma educativa dedicada a la enseñanza del español mediante metodologías inmersivas e interactivas, adaptadas a las necesidades del siglo XXI.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="lecciones.html">Lecciones</a></li>
+            <li><a href="recursos.html">Recursos</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="carreras.html">Carreras</a></li>
+            <li><a href="prensa.html">Prensa</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="terminos.html">Términos de Servicio</a></li>
+            <li><a href="privacidad.html">Política de Privacidad</a></li>
+            <li><a href="cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year">2025</span> Lengua Lúdica. Todos los derechos reservados.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Idioma: Español</a>
+          <a href="#">Ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/lessons.js"></script>
+</body>
+</html>

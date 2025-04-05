@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil - EspañolApps</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/theme.css">
+  <link rel="stylesheet" href="styles/perfil.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="light-theme">
+  <header class="header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-book-open"></i>
+        <span>EspañolApps</span>
+      </a>
+      
+      <nav class="desktop-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link active">Mi Perfil</a>
+      </nav>
+      
+      <div class="header-controls">
+        <button id="accessibility-toggle" class="btn btn-icon" aria-label="Configuración de accesibilidad">
+          <i class="fas fa-glasses"></i>
+        </button>
+        <button id="theme-toggle" class="btn btn-icon" aria-label="Cambiar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="mobile-menu-toggle" class="btn btn-icon mobile-only" aria-label="Abrir menú">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <nav class="mobile-nav">
+        <a href="index.html" class="nav-link">Inicio</a>
+        <a href="lecciones.html" class="nav-link">Lecciones</a>
+        <a href="evaluacion.html" class="nav-link">Evaluación Inicial</a>
+        <a href="metodologia.html" class="nav-link">Metodología</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="perfil.html" class="nav-link">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <h1>Mi Perfil</h1>
+        <p>Revisa tu progreso y personaliza tu experiencia de aprendizaje</p>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="profile-grid">
+        <!-- User Profile Card -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-info">
+              <h2 id="user-name">Estudiante</h2>
+              <p id="user-level">Nivel: <span class="level-badge">A2</span></p>
+            </div>
+            <button id="edit-profile" class="btn btn-icon edit-btn">
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+          </div>
+          
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="fas fa-calendar"></i>
+              </div>
+              <div class="stat-data">
+                <div class="stat-value" id="days-streak">0</div>
+                <div class="stat-label">Días seguidos</div>
+              </div>
+            </div>
+            
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="stat-data">
+                <div class="stat-value" id="total-points">0</div>
+                <div class="stat-label">Puntos totales</div>
+              </div>
+            </div>
+            
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-data">
+                <div class="stat-value" id="study-time">0h</div>
+                <div class="stat-label">Tiempo de estudio</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-actions">
+            <a href="evaluacion.html" class="btn btn-outline">Hacer evaluación de nivel</a>
+            <button id="edit-settings" class="btn btn-outline">Configuración</button>
+          </div>
+        </div>
+        
+        <!-- Progress Overview -->
+        <div class="progress-card">
+          <h3 class="card-title">Mi Progreso</h3>
+          
+          <div class="overview-stats">
+            <div class="overview-item">
+              <div class="overview-header">
+                <h4>Lecciones completadas</h4>
+                <span id="completed-lessons">0/20</span>
+              </div>
+              <div class="overview-progress">
+                <div class="progress-bar" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <div class="overview-item">
+              <div class="overview-header">
+                <h4>Nivel actual</h4>
+                <span>Principiante</span>
+              </div>
+              <div class="level-progress">
+                <div class="level-marker active" data-level="A1">A1</div>
+                <div class="level-marker" data-level="A2">A2</div>
+                <div class="level-marker" data-level="B1">B1</div>
+                <div class="level-marker" data-level="B2">B2</div>
+                <div class="level-marker" data-level="C1">C1</div>
+                <div class="level-marker" data-level="C2">C2</div>
+              </div>
+            </div>
+            
+            <div class="overview-item">
+              <div class="overview-header">
+                <h4>Próximo nivel</h4>
+                <span id="next-level-progress">0/100 puntos</span>
+              </div>
+              <div class="overview-progress">
+                <div class="progress-bar" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="skill-progress">
+            <h4>Habilidades</h4>
+            
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Vocabulario</span>
+                <span class="skill-level">Principiante</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 25%"></div>
+              </div>
+            </div>
+            
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Gramática</span>
+                <span class="skill-level">Principiante</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 20%"></div>
+              </div>
+            </div>
+            
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Conversación</span>
+                <span class="skill-level">No iniciado</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 0%"></div>
+              </div>
+            </div>
+            
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Comprensión</span>
+                <span class="skill-level">Básico</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" style="width: 35%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="activity-card">
+          <div class="card-header">
+            <h3 class="card-title">Actividad Reciente</h3>
+            <a href="#" class="view-all">Ver todo</a>
+          </div>
+          
+          <div id="activity-list" class="activity-list">
+            <!-- Activities will be added by JavaScript -->
+            <div class="no-activity">
+              <i class="fas fa-history"></i>
+              <p>No tienes actividad reciente</p>
+              <a href="lecciones.html" class="btn btn-sm btn-outline">Comenzar a aprender</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Achievements -->
+        <div class="achievements-card">
+          <div class="card-header">
+            <h3 class="card-title">Logros</h3>
+            <a href="#" class="view-all">Ver todo</a>
+          </div>
+          
+          <div class="achievements-grid">
+            <div class="achievement locked">
+              <div class="achievement-icon">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <div class="achievement-name">Principiante</div>
+            </div>
+            
+            <div class="achievement locked">
+              <div class="achievement-icon">
+                <i class="fas fa-fire"></i>
+              </div>
+              <div class="achievement-name">7 días seguidos</div>
+            </div>
+            
+            <div class="achievement locked">
+              <div class="achievement-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="achievement-name">5 lecciones completadas</div>
+            </div>
+            
+            <div class="achievement locked">
+              <div class="achievement-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="achievement-name">100 puntos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <span class="logo-text">Lengua Lúdica</span>
+          </a>
+          <p class="footer-description">
+            Plataforma educativa dedicada a la enseñanza del español mediante metodologías inmersivas e interactivas, adaptadas a las necesidades del siglo XXI.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="lecciones.html">Lecciones</a></li>
+            <li><a href="recursos.html">Recursos</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="carreras.html">Carreras</a></li>
+            <li><a href="prensa.html">Prensa</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="terminos.html">Términos de Servicio</a></li>
+            <li><a href="privacidad.html">Política de Privacidad</a></li>
+            <li><a href="cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year">2025</span> Lengua Lúdica. Todos los derechos reservados.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Idioma: Español</a>
+          <a href="#">Ayuda</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Edit Profile Modal -->
+  <div id="profile-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Editar Perfil</h2>
+        <button id="close-profile-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="profile-form">
+          <div class="form-group">
+            <label for="profile-name">Nombre</label>
+            <input type="text" id="profile-name" class="form-control" placeholder="Tu nombre">
+          </div>
+          
+          <div class="form-group">
+            <label for="profile-email">Correo electrónico</label>
+            <input type="email" id="profile-email" class="form-control" placeholder="correo@ejemplo.com">
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="cancel-profile" class="btn btn-outline">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Configuración</h2>
+        <button id="close-settings-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <h3>Tema</h3>
+          <div class="theme-options">
+            <button id="light-theme" class="theme-button">
+              <i class="fas fa-sun"></i>
+              <span>Claro</span>
+            </button>
+            
+            <button id="dark-theme" class="theme-button">
+              <i class="fas fa-moon"></i>
+              <span>Oscuro</span>
+            </button>
+            
+            <button id="system-theme" class="theme-button">
+              <i class="fas fa-desktop"></i>
+              <span>Sistema</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <h3>Accesibilidad</h3>
+          <div class="accessibility-setting">
+            <label>Tamaño del texto: <span id="font-size-value">100%</span></label>
+            <div class="font-size-controls">
+              <button id="decrease-font" class="btn btn-sm btn-icon"><i class="fas fa-minus"></i></button>
+              <input type="range" id="font-size-slider" min="70" max="150" value="100" step="5">
+              <button id="increase-font" class="btn btn-sm btn-icon"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+          
+          <div class="accessibility-setting">
+            <label for="high-contrast">Alto contraste</label>
+            <label class="switch">
+              <input type="checkbox" id="high-contrast">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        
+        <button id="reset-settings" class="btn btn-outline btn-block">Restablecer ajustes predeterminados</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/perfil.js"></script>
+</body>
+</html>
