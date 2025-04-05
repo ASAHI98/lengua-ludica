@@ -1,159 +1,146 @@
 
-// DOM Elements
-const fontSizeSlider = document.getElementById('font-size-slider');
-const fontSizeValue = document.getElementById('font-size-value');
-const decreaseFontBtn = document.getElementById('decrease-font');
-const increaseFontBtn = document.getElementById('increase-font');
-const highContrastToggle = document.getElementById('high-contrast');
-const resetSettingsBtn = document.getElementById('reset-settings');
-
-// Font size controls in accessibility panel
-const fontNormalBtn = document.getElementById('font-normal');
-const fontLargeBtn = document.getElementById('font-large');
-const fontXLargeBtn = document.getElementById('font-xlarge');
-const toggleContrastBtn = document.getElementById('toggle-contrast');
-
-// Initialize accessibility settings
-function initializeAccessibility() {
-  // Load saved font size
-  const savedFontSize = localStorage.getItem('fontSize');
-  if (savedFontSize) {
-    setFontSize(parseInt(savedFontSize, 10));
-    if (fontSizeSlider) fontSizeSlider.value = savedFontSize;
-    if (fontSizeValue) fontSizeValue.textContent = `${savedFontSize}%`;
+// Accessibility settings
+document.addEventListener('DOMContentLoaded', function() {
+  // Elements
+  const accessibilityToggle = document.getElementById('accessibility-toggle');
+  const settingsPanel = document.getElementById('settings-panel');
+  const closeSettings = document.getElementById('close-settings');
+  const fontSizeRange = document.getElementById('font-size-range');
+  const fontSizeValue = document.getElementById('font-size-value');
+  const increaseFont = document.getElementById('increase-font');
+  const decreaseFont = document.getElementById('decrease-font');
+  const highContrastToggle = document.getElementById('high-contrast-toggle');
+  
+  // Load saved accessibility settings
+  loadAccessibilitySettings();
+  
+  // Toggle settings panel
+  if (accessibilityToggle) {
+    accessibilityToggle.addEventListener('click', function() {
+      settingsPanel.classList.toggle('open');
+    });
   }
   
-  // Load high contrast setting
-  const highContrast = localStorage.getItem('highContrast') === 'true';
-  setHighContrast(highContrast);
-  if (highContrastToggle) highContrastToggle.checked = highContrast;
-}
-
-// Set font size
-function setFontSize(size) {
-  document.documentElement.style.fontSize = `${size}%`;
-  
-  // Update UI if elements exist
-  if (fontSizeValue) fontSizeValue.textContent = `${size}%`;
-  if (fontSizeSlider) fontSizeSlider.value = String(size);
-  
-  // Save to localStorage
-  localStorage.setItem('fontSize', String(size));
-}
-
-// Set high contrast
-function setHighContrast(enabled) {
-  if (enabled) {
-    document.documentElement.classList.add('high-contrast');
-  } else {
-    document.documentElement.classList.remove('high-contrast');
+  // Close settings panel
+  if (closeSettings) {
+    closeSettings.addEventListener('click', function() {
+      settingsPanel.classList.remove('open');
+    });
   }
   
-  // Update UI if toggle exists
-  if (highContrastToggle) highContrastToggle.checked = enabled;
-  
-  // Save to localStorage
-  localStorage.setItem('highContrast', String(enabled));
-}
-
-// Reset settings
-function resetSettings() {
-  setFontSize(100);
-  setHighContrast(false);
-  localStorage.removeItem('theme');
-  
-  // Use system preference for theme
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.remove('light-theme');
-    document.body.classList.add('dark-theme');
-  } else {
-    document.body.classList.remove('dark-theme');
-    document.body.classList.add('light-theme');
+  // Font size slider
+  if (fontSizeRange) {
+    fontSizeRange.addEventListener('input', function() {
+      changeFontSize(this.value);
+    });
   }
   
-  if (window.showNotification) {
-    window.showNotification('Ajustes restablecidos a valores predeterminados');
+  // Increase font size button
+  if (increaseFont) {
+    increaseFont.addEventListener('click', function() {
+      const currentSize = parseInt(fontSizeRange.value);
+      const newSize = Math.min(currentSize + 25, 150);
+      fontSizeRange.value = newSize;
+      changeFontSize(newSize);
+    });
   }
-}
-
-// Font size slider
-if (fontSizeSlider) {
-  fontSizeSlider.addEventListener('input', () => {
-    const newSize = parseInt(fontSizeSlider.value, 10);
-    setFontSize(newSize);
-  });
-}
-
-// Font size buttons
-if (decreaseFontBtn) {
-  decreaseFontBtn.addEventListener('click', () => {
-    const currentSize = parseInt(localStorage.getItem('fontSize') || '100', 10);
-    const newSize = Math.max(70, currentSize - 10);
-    setFontSize(newSize);
-  });
-}
-
-if (increaseFontBtn) {
-  increaseFontBtn.addEventListener('click', () => {
-    const currentSize = parseInt(localStorage.getItem('fontSize') || '100', 10);
-    const newSize = Math.min(150, currentSize + 10);
-    setFontSize(newSize);
-  });
-}
-
-// High contrast toggle
-if (highContrastToggle) {
-  highContrastToggle.addEventListener('change', () => {
-    setHighContrast(highContrastToggle.checked);
+  
+  // Decrease font size button
+  if (decreaseFont) {
+    decreaseFont.addEventListener('click', function() {
+      const currentSize = parseInt(fontSizeRange.value);
+      const newSize = Math.max(currentSize - 25, 100);
+      fontSizeRange.value = newSize;
+      changeFontSize(newSize);
+    });
+  }
+  
+  // High contrast toggle
+  if (highContrastToggle) {
+    highContrastToggle.addEventListener('change', function() {
+      toggleHighContrast(this.checked);
+    });
+  }
+  
+  // Change font size
+  function changeFontSize(size) {
+    document.body.style.fontSize = size + '%';
+    if (fontSizeValue) fontSizeValue.textContent = size + '%';
     
+    // Remove existing font size classes
+    document.body.classList.remove('font-size-large', 'font-size-extra-large');
+    
+    // Add appropriate class
+    if (size == 125) {
+      document.body.classList.add('font-size-large');
+    } else if (size == 150) {
+      document.body.classList.add('font-size-extra-large');
+    }
+    
+    // Save setting to localStorage
+    localStorage.setItem('fontSizePreference', size);
+    
+    // Show notification
     if (window.showNotification) {
-      window.showNotification(
-        `Alto contraste ${highContrastToggle.checked ? 'activado' : 'desactivado'}`
-      );
+      window.showNotification(`Tamaño de texto cambiado a ${size}%`);
+    }
+  }
+  
+  // Toggle high contrast
+  function toggleHighContrast(enabled) {
+    if (enabled) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+    
+    // Save setting to localStorage
+    localStorage.setItem('highContrastPreference', enabled);
+    
+    // Show notification
+    if (window.showNotification) {
+      window.showNotification(enabled ? 'Alto contraste activado' : 'Alto contraste desactivado');
+    }
+  }
+  
+  // Load accessibility settings from localStorage
+  function loadAccessibilitySettings() {
+    // Load font size preference
+    const savedFontSize = localStorage.getItem('fontSizePreference');
+    if (savedFontSize) {
+      if (fontSizeRange) fontSizeRange.value = savedFontSize;
+      changeFontSize(savedFontSize);
+    }
+    
+    // Load high contrast preference
+    const savedHighContrast = localStorage.getItem('highContrastPreference') === 'true';
+    if (highContrastToggle) highContrastToggle.checked = savedHighContrast;
+    toggleHighContrast(savedHighContrast);
+  }
+  
+  // Close settings panel when clicking outside
+  document.addEventListener('click', function(event) {
+    if (settingsPanel && accessibilityToggle) {
+      if (!settingsPanel.contains(event.target) && !accessibilityToggle.contains(event.target)) {
+        settingsPanel.classList.remove('open');
+      }
     }
   });
-}
-
-// Reset settings button
-if (resetSettingsBtn) {
-  resetSettingsBtn.addEventListener('click', resetSettings);
-}
-
-// Panel font size controls
-if (fontNormalBtn) {
-  fontNormalBtn.addEventListener('click', () => {
-    setFontSize(100);
-    if (window.showNotification) window.showNotification('Tamaño de texto: normal');
-  });
-}
-
-if (fontLargeBtn) {
-  fontLargeBtn.addEventListener('click', () => {
-    setFontSize(125);
-    if (window.showNotification) window.showNotification('Tamaño de texto: grande');
-  });
-}
-
-if (fontXLargeBtn) {
-  fontXLargeBtn.addEventListener('click', () => {
-    setFontSize(150);
-    if (window.showNotification) window.showNotification('Tamaño de texto: muy grande');
-  });
-}
-
-// Toggle contrast button in accessibility panel
-if (toggleContrastBtn) {
-  toggleContrastBtn.addEventListener('click', () => {
-    const isHighContrast = document.documentElement.classList.contains('high-contrast');
-    setHighContrast(!isHighContrast);
-    
-    if (window.showNotification) {
-      window.showNotification(
-        `Alto contraste ${!isHighContrast ? 'activado' : 'desactivado'}`
-      );
-    }
-  });
-}
-
-// Initialize accessibility settings when page loads
-document.addEventListener('DOMContentLoaded', initializeAccessibility);
+  
+  // Common notification function (if not already defined)
+  if (!window.showNotification) {
+    window.showNotification = function(message) {
+      const notification = document.getElementById('notification');
+      const notificationMessage = document.getElementById('notification-message');
+      
+      if (notification && notificationMessage) {
+        notificationMessage.textContent = message;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 3000);
+      }
+    };
+  }
+});
